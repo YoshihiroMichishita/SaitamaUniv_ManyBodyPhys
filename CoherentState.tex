@@ -67,7 +67,7 @@
 \subsection{Fermionのcoherent状態}
 さてFermionについても同様にcoherent状態を定義したいが、同じようにc数で使って定義しようとすると、Fermionの反交換関係が反映されない。すなわち$c_i\ket{\phi} = \phi_i\ket{\phi}$とした場合に、$c_ic_j\ket{\phi} = \phi_i\phi_j\ket{\phi} = c_jc_i\ket{\phi}$となり、Fermionの反交換関係($c_ic_j = -c_jc_i$)と不整合である。
 よって「反交換関係($\eta_i \eta_j = -\eta_j\eta_i$及び$\eta_i c_j = - c_j\eta_i$)を持つ数」を導入する必要がある。これがGrassmann数である。\footnote{ひょっとすると初めてGrassmann数(もしくはFermion)の交換関係を見た時に、「ベクトルの外積($\vec{A}\times\vec{B} = - \vec{B}\times\vec{A}$)みたいだな」と思った方もいるかもしれない。大正解である。Grassmann数は、ベクトル表現をすることが出来、積として外積(みんなが知っている３次元の外積を少し一般化したもの)の構造を入れたものになっている。ノートの最後に補足を書いておくので、興味がある人はどうぞ。}
-coherent状態に用いたいので、このGrassmann数の微分と積分を定義する必要がある。これは以下で定義しておくと経路積分で使う際に都合が良い。
+経路積分に用いたいので、このGrassmann数の微分と積分を定義する必要がある。これは以下で定義しておくと経路積分で使う際に都合が良い。
 \begin{eqnarray}
   \frac{\p}{\p\eta_i} \eta_j = \delta_{ij}, \quad \int d\eta_i 1 = 0, \quad \int d\eta_i \eta_j = \delta_{ij}
 \end{eqnarray}
@@ -128,7 +128,11 @@ coherent状態に用いたいので、このGrassmann数の微分と積分を定
 \end{eqnarray}
 \begin{mdframed}[linewidth=1pt]
 \textbf{練習問題(5):} 上の証明の手順に沿って、n = 2の時($\eta_1, \eta_2$がある時)について証明を実行してみよ\\
-\textbf{練習問題(6):} 追加のGassmann数$\vec{\bar{\psi}}, \vec{\psi}$(ただし$\vec{\psi} = [\psi_1, \dots, \psi_n]^T$)を導入した時、
+\textbf{練習問題(6):} 追加のGassmann数$\vec{\bar{\psi}}, \vec{\psi}$(ただし$\vec{\psi} = [\psi_1, \dots, \psi_n]^T$)を導入した時、以下を示せ。
+\begin{eqnarray}
+  \prod_i \Bigl(\int d\bar{\eta}_i \int d\eta_i\Bigr) \exp[-(\vec{\bar{\eta}}+\vec{\bar{\psi}})^T A (\vec{\eta} + \vec{\psi}) ] = \det(A)
+\end{eqnarray}
+\textbf{練習問題(7):} 上で証明した事を用いて、
 \begin{eqnarray}
   \prod_i \Bigl(\int d\bar{\eta}_i \int d\eta_i\Bigr) \exp[-\vec{\bar{\eta}}^T A \vec{\eta} + \vec{\bar{\eta}}^T\cdot\vec{\psi} + \vec{\bar{\psi}}^T\cdot\vec{\eta}] = \det(A)\exp[\vec{\bar{\psi}}^T A^{-1} \vec{\psi}]\nonumber\\
 \end{eqnarray}
