@@ -1,0 +1,137 @@
+\documentclass[a4paper,12pt]{jsarticle}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb}
+\usepackage{enumitem}
+\usepackage{mdframed} 
+\usepackage{bm}
+\usepackage{physics}
+\usepackage{float}
+\usepackage{mathdots}
+\usepackage[dvipdfm]{graphicx}
+\newcommand{\p}{\partial}
+\newcommand{\poi}[1]{\{ #1 \}}
+%\newcommand{\log}{\mathrm{log}}
+\newcommand{\ve}{\varepsilon}
+\newcommand{\tdv}[2]{\frac{d #1}{d #2}}
+\renewcommand{\pdv}[2]{\frac{\p #1}{\p #2}}
+\renewcommand{\abs}[1]{| #1 |}
+\newcommand{\Biglr}[1]{\Bigl[ #1 \Bigr]}
+\newcommand{\Biglrm}[1]{\Bigl( #1 \Bigr)}
+\renewcommand{\fdv}[2]{\frac{d #1}{d #2}}
+\renewcommand{\order}[1]{\mathcal{O}[ #1 ]}
+\newcommand{\m}[1]{\mathcal{#1}}
+\newcommand{\h}[1]{\hat{#1}}
+%\newcommand{\dd}{\mathrm{d}}
+
+
+\begin{document}
+
+\section{BosonとFermionのCoherent state}
+このノートでは経路積分形式で使うためのcohenret状態とその性質についてまとめる。coherent状態を使う理由としては、後に見てわかる通り、場の演算子を微分・積分可能な数に置き換えるためである。
+
+統計力学において、分配関数による物理量の計算を学んだことを覚えているだろうか？分配関数は一度積分を計算しておけば、あとは任意の物理量が微分(変分)によって計算が出来ることが利点であった。古典の場合は積分すれば良いのだが、量子の場合は分配関数の中身が演算子になっており、量子の演算子は一般に飛び飛びの値を取るため、そのままでは微分(変分)ができない。そこでcoherent状態を導入することで、演算子を微分・積分可能な数に置き換えることができるのである。(量子系を「古典系っぽく」扱うための方法だと思ってもらって良い。)
+
+\subsection{ボゾンのcoherent状態}
+場の生成・消滅演算子$\poi{a^{(\dagger)}_i}_{i=1}^N$が定義されている状態空間を考える。($[a_i, a_j^\dagger] = \delta_{ij}$が満たされているとする。)
+この時コヒーレント状態はベクトル変数$\vec{\phi} = [\phi_1, \phi_2, \dots \phi_N]$($\phi_i$はc数(複素数))を用いて
+\begin{eqnarray}
+  \ket{\vec{\phi}} = \exp\Biglr{\sum_i \phi_i a_i^\dagger}\ket{0} = \prod_i \exp\Biglr{\phi_i a_i^\dagger}\ket{0}
+\end{eqnarray}
+と定義される。これは以下を満たす。
+\begin{eqnarray}
+  a_i \ket{\vec{\phi}} = \phi_i \ket{\vec{\phi}}, \quad \bra{\vec{\phi}} a_i^\dagger = \bra{\vec{\phi}} \phi_i^* \label{coherent_eigen}
+\end{eqnarray}
+よってこの状態の上では演算子はc数として振る舞う。
+
+
+さらに、coherent状態に対する微分やnormについて計算すると
+\begin{eqnarray}
+  \frac{\p}{\p \phi_i} \ket{\vec{\phi}} = a^{\dagger}_i \ket{\vec{\phi}}, \quad \frac{\p}{\p \phi^*_i} \bra{\vec{\phi}} = \bra{\vec{\phi}} a_i, \quad \braket{\theta}{\phi} = \exp[\sum_i \theta_i^*\phi_i] \label{coh_norm}
+\end{eqnarray}
+また、このcoherent状態を用いて、今考えている状態空間全体を張ることが出来る。(完全性)
+\begin{eqnarray}
+  \hat{1} = \int \prod_i \Bigl(\frac{\mathrm{d}\phi_i^*\mathrm{d}\phi_i}{\pi}\Bigr) e^{-\sum_i |\phi_i|^2} \ket{\phi}\bra{\phi}
+\end{eqnarray}
+
+\begin{mdframed}[linewidth=1pt]
+\textbf{練習問題(1):} 式(\ref{coherent_eigen})を示せ。\\
+\textbf{練習問題(2):} 式(\ref{coh_norm})のnormについて示せ。\\
+\textbf{練習問題(3):} 完全性について、まず
+\begin{eqnarray}
+  \hat{1} = \int \prod_i \Bigl(\frac{\mathrm{d}\phi_i^*\mathrm{d}\phi_i}{\pi}\Bigr) f(\{\phi_i, \phi_i^*\}_i) \ket{\phi}\bra{\phi}
+\end{eqnarray}
+として, $\hat{1}$が満たすべき性質$a \hat{1} = \hat{1}a, \quad a^\dagger \hat{1} = \hat{1}a^\dagger, \quad \bra{0}\hat{1}\ket{0} = 1$から$f(\{\phi_i, \phi_i^*\}_i)$を同定せよ。
+\end{mdframed}
+
+
+\subsection{Fermionのcoherent状態}
+さてFermionについても同様にcoherent状態を定義したいが、同じようにc数で使って定義しようとすると、Fermionの反交換関係が反映されない。すなわち$c_i\ket{\phi} = \phi_i\ket{\phi}$とした場合に、$c_ic_j\ket{\phi} = \phi_i\phi_j\ket{\phi} = c_jc_i\ket{\phi}$となり、Fermionの反交換関係($c_ic_j = -c_jc_i$)と不整合である。
+よって「反交換関係($\eta_i \eta_j = -\eta_j\eta_i$及び$\eta_i c_j = - c_j\eta_i$)を持つ数」を導入する必要がある。これがGrassmann数である。\footnote{ひょっとすると初めてGrassmann数(もしくはFermion)の交換関係を見た時に、「ベクトルの外積($\vec{A}\times\vec{B} = - \vec{B}\times\vec{A}$)みたいだな」と思った方もいるかもしれない。大正解である。Grassmann数は、ベクトル表現をすることが出来、積として外積(みんなが知っている３次元の外積を少し一般化したもの)の構造を入れたものになっている。ノートの最後に補足を書いておくので、興味がある人はどうぞ。}
+coherent状態に用いたいので、このGrassmann数の微分と積分を定義する必要がある。これは以下で定義しておくと経路積分で使う際に都合が良い。
+\begin{eqnarray}
+  \frac{\p}{\p\eta_i} \eta_j = \delta_{ij}, \quad \int d\eta_i 1 = 0, \quad \int d\eta_i \eta_j = \delta_{ij}
+\end{eqnarray}
+この場合、Grassmann数を変数に持つ滑らかな関数$f(\eta)$の性質として、
+\begin{eqnarray}
+  f(\eta) = f(0) + \left.\frac{\p f}{\p\eta}\right|_{\eta=0}\eta = f(0) + f'(0)\eta
+\end{eqnarray}
+のように厳密に書けるという性質がある。反交換関係より$\eta_i^2 = 0$なので、$\eta_i$について1次までで展開できるのだ。特に使うものとして、expの形で
+\begin{eqnarray}
+  \exp(a \eta) = 1 + a\eta
+\end{eqnarray}
+となることを覚えておくと良いだろう。($a$はc数。)
+
+さてGrassmann数と微分積分を含めたその演算を定義した。(足し算・引き算は特に定義しなかったが、ベクトルや通常のc数の足し算・引き算と同じように定義する。) これを用いて、Fermionのcoherent状態は、
+\begin{eqnarray}
+  \ket{\eta} = \exp[\sum_i\eta_i c^{\dagger}_i]\ket{0}
+\end{eqnarray}
+と定義する。このようにすれば
+\begin{eqnarray}
+  c_i \ket{\eta} = \eta_i \ket{\eta}, \quad \frac{\p}{\p\eta_i}\ket{\eta} = c^\dagger_i \ket{\eta}
+\end{eqnarray}
+となる。また$\bar{\eta} = \eta^*$を用いて、
+\begin{eqnarray}
+  \bra{\eta} = \bra{0}\exp[\sum_i c_i \bar{\eta_i}] = \bra{0}\exp[-\sum_i \bar{\eta_i} c_i] 
+\end{eqnarray}
+とすれば
+\begin{eqnarray}
+  \bra{\eta}a^\dagger_i = \bra{\eta} \bar{\eta_i}, \quad \frac{\p}{\p\bar{\eta}}\bra{\eta} = \bra{\eta}a_i
+\end{eqnarray}
+と書ける。ここで敢えて$\eta^*$と書かずに$\bar{\eta}$と書くのは、これらがGrassmann数の独立な元であることを強調する為であろう。
+
+これらを用いて、Bosonの場合と同様に状態空間全体を張ることが出来る。
+\begin{eqnarray}
+  \hat{1} = \int \prod_i \Bigl(d\bar{\eta}_i d\eta_i\Bigr) e^{-\sum_i\bar{\eta_i}\eta_i}\ket{\eta}\bra{\eta}
+\end{eqnarray}
+\begin{mdframed}[linewidth=1pt]
+\textbf{練習問題(4):} Fermionのcoherent状態の完全性について、Bosonの場合と同様の手続きによって証明せよ。
+\end{mdframed}
+
+最後に経路積分で使うのでGrassmann数のGauss積分の公式を導いておこう。
+\begin{eqnarray}
+  \int d\bar{\eta}\int d\eta e^{-\bar{\eta}a\eta} &=& \int d\bar{\eta}\int d\eta (1 - \bar{\eta}a\eta)\nonumber\\
+  &=& a\int d\bar{\eta} \bar{\eta}\int d\eta \eta = a
+\end{eqnarray}
+2行目から3行目の式変形に$\int d\eta \bar{\eta} = - \bar{\eta} \int d\eta$を用いた。(このようにGrassmann数は積分要素とも反交換関係が生じるので慣れが必要である)
+
+さらに一般化して
+\begin{eqnarray}
+  \prod_i \Bigl(\int d\bar{\eta}_i \int d\eta_i\Bigr) e^{-\sum_{ij}\bar{\eta_i}A_{ij}\eta_j} = \det(A)
+\end{eqnarray}
+を得ることが出来る。
+
+[証明]$\prod_{i=1}^n \Bigl(\int d\bar{\eta}_i \int d\eta_i\Bigr)$の積分の結果残るのは$\prod_{i=n}^1\eta_i\bar{\eta}_i$の係数である。$e^{-\sum_{ij}\bar{\eta_i}A_{ij}\eta_j} = \prod_{jk}(1 + \eta_k A_{jk}\bar{\eta}_j)$であるから、今求めたい係数は$j$同士,$k$同士で被らない$A_{jk}$の積の任意の組み合わせの和すなわち$1\sim n$を並べ替えたようなものの任意の並べ替えの和になる。さらにGrassmann数の性質により、$\prod_i\eta_i\bar{\eta}_i$の順番に並び替えようとした際に、並び替え$\sigma$に対して$\mathrm{sgn}(\sigma)$の符号が付くので、結果として
+\begin{eqnarray}
+  \prod_i \Bigl(\int d\bar{\eta}_i \int d\eta_i\Bigr) e^{-\sum_{ij}\bar{\eta_i}A_{ij}\eta_j} &=& \prod_i \Bigl(\int d\bar{\eta}_i \int d\eta_i\Bigr)\prod_{jk}(1 + \eta_k A_{jk}\bar{\eta}_j)\\
+  &=& \prod_i \Bigl(\int d\bar{\eta}_i \int d\eta_i\Bigr)\sum_{\sigma} \prod_i \eta_\sigma(i) A_{i\sigma(i)} \bar{\eta}_{i}\\
+  &=& \sum_{\sigma} \mathrm{sgn}(\sigma) \prod_i A_{i\sigma(i)} = \det(A)
+\end{eqnarray}
+\begin{mdframed}[linewidth=1pt]
+\textbf{練習問題(5):} 上の証明の手順に沿って、n = 2の時($\eta_1, \eta_2$がある時)について証明を実行してみよ\\
+\textbf{練習問題(6):} 追加のGassmann数$\vec{\bar{\psi}}, \vec{\psi}$(ただし$\vec{\psi} = [\psi_1, \dots, \psi_n]^T$)を導入した時、
+\begin{eqnarray}
+  \prod_i \Bigl(\int d\bar{\eta}_i \int d\eta_i\Bigr) \exp[-\vec{\bar{\eta}}^T A \vec{\eta} + \vec{\bar{\eta}}^T\cdot\vec{\psi} + \vec{\bar{\psi}}^T\cdot\vec{\eta}] = \det(A)\exp[\vec{\bar{\psi}}^T A^{-1} \vec{\psi}]\nonumber\\
+\end{eqnarray}
+となる事を示せ。(左辺の形を見て、「分配関数やモーメント母関数を似てるな」と思った方は良い嗅覚をお持ちである。)
+\end{mdframed}
+\end{document}
