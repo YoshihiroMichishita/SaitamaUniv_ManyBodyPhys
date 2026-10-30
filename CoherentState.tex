@@ -69,7 +69,7 @@
 よって「反交換関係($\eta_i \eta_j = -\eta_j\eta_i$及び$\eta_i c_j = - c_j\eta_i$)を持つ数」を導入する必要がある。これがGrassmann数である。\footnote{ひょっとすると初めてGrassmann数(もしくはFermion)の交換関係を見た時に、「ベクトルの外積($\vec{A}\times\vec{B} = - \vec{B}\times\vec{A}$)みたいだな」と思った方もいるかもしれない。大正解である。Grassmann数は、ベクトル表現をすることが出来、積として外積(みんなが知っている３次元の外積を少し一般化したもの)の構造を入れたものになっている。ノートの最後に補足を書いておくので、興味がある人はどうぞ。}
 経路積分に用いたいので、このGrassmann数の微分と積分を定義する必要がある。これは以下で定義しておくと経路積分で使う際に都合が良い。
 \begin{eqnarray}
-  \frac{\p}{\p\eta_i} \eta_j = \delta_{ij}, \quad \int d\eta_i 1 = 0, \quad \int d\eta_i \eta_j = \delta_{ij}
+  \frac{\p}{\p\eta_i} \eta_j = \delta_{ij}, \quad \int d\eta_i 1 = 0, \quad \int d\eta_i \eta_j = \delta_{ij}\label{grass_ana}
 \end{eqnarray}
 この場合、Grassmann数を変数に持つ滑らかな関数$f(\eta)$の性質として、
 \begin{eqnarray}
@@ -122,10 +122,19 @@
 
 [証明]$\prod_{i=1}^n \Bigl(\int d\bar{\eta}_i \int d\eta_i\Bigr)$の積分の結果残るのは$\prod_{i=n}^1\eta_i\bar{\eta}_i$の係数である。$e^{-\sum_{ij}\bar{\eta_i}A_{ij}\eta_j} = \prod_{jk}(1 + \eta_k A_{jk}\bar{\eta}_j)$であるから、今求めたい係数は$j$同士,$k$同士で被らない$A_{jk}$の積の任意の組み合わせの和すなわち$1\sim n$を並べ替えたようなものの任意の並べ替えの和になる。さらにGrassmann数の性質により、$\prod_i\eta_i\bar{\eta}_i$の順番に並び替えようとした際に、並び替え$\sigma$に対して$\mathrm{sgn}(\sigma)$の符号が付くので、結果として
 \begin{eqnarray}
-  \prod_i \Bigl(\int d\bar{\eta}_i \int d\eta_i\Bigr) e^{-\sum_{ij}\bar{\eta_i}A_{ij}\eta_j} &=& \prod_i \Bigl(\int d\bar{\eta}_i \int d\eta_i\Bigr)\prod_{jk}(1 + \eta_k A_{jk}\bar{\eta}_j)\\
+  \prod_i \Bigl(\int d\bar{\eta}_i \int d\eta_i\Bigr) e^{-\sum_{ij}\bar{\eta_i}A_{ij}\eta_j} &=& \prod_i \Bigl(\int d\bar{\eta}_i \int d\eta_i\Bigr)\prod_{jk}(1 + \eta_k A_{jk}\bar{\eta}_j)\label{gauss_grass}\\
   &=& \prod_i \Bigl(\int d\bar{\eta}_i \int d\eta_i\Bigr)\sum_{\sigma} \prod_i \eta_\sigma(i) A_{i\sigma(i)} \bar{\eta}_{i}\\
   &=& \sum_{\sigma} \mathrm{sgn}(\sigma) \prod_i A_{i\sigma(i)} = \det(A)
 \end{eqnarray}
+
+さらにこのことから、Grassmann数の変数変換をした際の積分要素に出てくるJacobianも計算することが出来る。
+というのも、$\vec{\eta'} = A \vec{\eta}$とすると式(\ref{gauss_grass})は
+\begin{eqnarray}
+  \Bigl(\int d\vec{\bar{\eta}} \vec{\int d\eta}\Bigr) e^{-\vec{\bar{\eta}}^T A \vec{\eta}} &=& \Bigl(\int d\vec{\bar{\eta}'} \vec{\int d\eta'}\Bigr) J^2(A) e^{-\vec{\bar{\eta}'}^TA^{-1} \vec{\eta'}} \\
+  &=& J^2(A) \det(A^{-1}) = \det(A)
+\end{eqnarray}
+よって$\vec{\eta} \rightarrow\vec{\eta'} = A \vec{\eta}$とする変数変換については$J(A) = \det(A)$となるヤコビアン考える事になる。これは通常の多変数の積分の逆数のファクターがかかる事になっている。これもGrassmann数の特殊性である(式(\ref{grass_ana})から、Grassmann数の積分はある種微分と同じ結果を返すために、むしろ微分としてヤコビアンを考えていると思っても良いかもしれない。)
+
 \begin{mdframed}[linewidth=1pt]
 \textbf{練習問題(5):} 上の証明の手順に沿って、n = 2の時($\eta_1, \eta_2$がある時)について証明を実行してみよ\\
 \textbf{練習問題(6):} 追加のGassmann数$\vec{\bar{\psi}}, \vec{\psi}$(ただし$\vec{\psi} = [\psi_1, \dots, \psi_n]^T$)を導入した時、以下を示せ。
