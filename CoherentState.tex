@@ -8,6 +8,8 @@
 \usepackage{float}
 \usepackage{mathdots}
 \usepackage[dvipdfm]{graphicx}
+\usepackage[dvipdfmx,hidelinks]{hyperref}
+\usepackage{pxjahyper}
 \newcommand{\p}{\partial}
 \newcommand{\poi}[1]{\{ #1 \}}
 %\newcommand{\log}{\mathrm{log}}
@@ -23,10 +25,18 @@
 \newcommand{\h}[1]{\hat{#1}}
 %\newcommand{\dd}{\mathrm{d}}
 
+\title{多体物性特論\\ - 経路積分形式による応答関数の計算 -}
+\author{道下}
+\date{\today}
 
 \begin{document}
 
-\section{BosonとFermionのCoherent state}
+\maketitle
+
+\setcounter{tocdepth}{2}
+\tableofcontents
+
+\section{(準備)BosonとFermionのCoherent state}
 このノートでは経路積分形式で使うためのcohenret状態とその性質についてまとめる。coherent状態を使う理由としては、後に見てわかる通り、場の演算子を微分・積分可能な数に置き換えるためである。
 
 統計力学において、分配関数による物理量の計算を学んだことを覚えているだろうか？分配関数は一度積分を計算しておけば、あとは任意の物理量が微分(変分)によって計算が出来ることが利点であった。古典の場合は積分すれば良いのだが、量子の場合は分配関数の中身が演算子になっており、量子の演算子は一般に飛び飛びの値を取るため、そのままでは微分(変分)ができない。そこでcoherent状態を導入することで、演算子を微分・積分可能な数に置き換えることができるのである。(量子系を「古典系っぽく」扱うための方法だと思ってもらって良い。)
@@ -83,25 +93,25 @@
 
 さてGrassmann数と微分積分を含めたその演算を定義した。(足し算・引き算は特に定義しなかったが、ベクトルや通常のc数の足し算・引き算と同じように定義する。) これを用いて、Fermionのcoherent状態は、
 \begin{eqnarray}
-  \ket{\eta} = \exp[\sum_i\eta_i c^{\dagger}_i]\ket{0}
+  \ket{\vec{\eta}} = \exp[-\sum_i\eta_i c^{\dagger}_i]\ket{0}
 \end{eqnarray}
 と定義する。このようにすれば
 \begin{eqnarray}
-  c_i \ket{\eta} = \eta_i \ket{\eta}, \quad \frac{\p}{\p\eta_i}\ket{\eta} = c^\dagger_i \ket{\eta}
+  c_i \ket{\vec{\eta}} = \eta_i \ket{\vec{\eta}}, \quad \frac{\p}{\p\eta_i}\ket{\vec{\eta}} = -c^\dagger_i \ket{\vec{\eta}}
 \end{eqnarray}
 となる。また$\bar{\eta} = \eta^*$を用いて、
 \begin{eqnarray}
-  \bra{\eta} = \bra{0}\exp[\sum_i c_i \bar{\eta_i}] = \bra{0}\exp[-\sum_i \bar{\eta_i} c_i] 
+  \bra{\vec{\eta}} = \bra{0}\exp[-\sum_i c_i \bar{\eta_i}] = \bra{0}\exp[\sum_i \bar{\eta_i} c_i] 
 \end{eqnarray}
 とすれば
 \begin{eqnarray}
-  \bra{\eta}a^\dagger_i = \bra{\eta} \bar{\eta_i}, \quad \frac{\p}{\p\bar{\eta}}\bra{\eta} = \bra{\eta}a_i
+  \bra{\vec{\eta}}c^\dagger_i = \bra{\vec{\eta}} \bar{\eta_i}, \quad \frac{\p}{\p\bar{\eta}}\bra{\vec{\eta}} = \bra{\eta}c_i
 \end{eqnarray}
 と書ける。ここで敢えて$\eta^*$と書かずに$\bar{\eta}$と書くのは、これらがGrassmann数の独立な元であることを強調する為であろう。
 
 これらを用いて、Bosonの場合と同様に状態空間全体を張ることが出来る。
 \begin{eqnarray}
-  \hat{1} = \int \prod_i \Bigl(d\bar{\eta}_i d\eta_i\Bigr) e^{-\sum_i\bar{\eta_i}\eta_i}\ket{\eta}\bra{\eta}
+  \hat{1} = \int \prod_i \Bigl(d\bar{\eta}_i d\eta_i\Bigr) e^{-\sum_i\bar{\eta_i}\eta_i}\ket{\vec{\eta}}\bra{\vec{\eta}}
 \end{eqnarray}
 \begin{mdframed}[linewidth=1pt]
 \textbf{練習問題(4):} Fermionのcoherent状態の完全性について、Bosonの場合と同様の手続きによって証明せよ。
@@ -124,19 +134,19 @@
 \begin{eqnarray}
   \prod_i \Bigl(\int d\bar{\eta}_i \int d\eta_i\Bigr) e^{-\sum_{ij}\bar{\eta_i}A_{ij}\eta_j} &=& \prod_i \Bigl(\int d\bar{\eta}_i \int d\eta_i\Bigr)\prod_{jk}(1 + \eta_k A_{jk}\bar{\eta}_j)\label{gauss_grass}\\
   &=& \prod_i \Bigl(\int d\bar{\eta}_i \int d\eta_i\Bigr)\sum_{\sigma} \prod_i \eta_\sigma(i) A_{i\sigma(i)} \bar{\eta}_{i}\\
-  &=& \sum_{\sigma} \mathrm{sgn}(\sigma) \prod_i A_{i\sigma(i)} = \det(A)
+  &=& \sum_{\sigma} \mathrm{sgn}(\sigma) \prod_i A_{i\sigma(i)} = \det(A)\label{grassmann_gauss}
 \end{eqnarray}
 
 さらにこのことから、Grassmann数の変数変換をした際の積分要素に出てくるJacobianも計算することが出来る。
 というのも、$\vec{\eta'} = A \vec{\eta}$とすると式(\ref{gauss_grass})は
 \begin{eqnarray}
-  \Bigl(\int d\vec{\bar{\eta}} \vec{\int d\eta}\Bigr) e^{-\vec{\bar{\eta}}^T A \vec{\eta}} &=& \Bigl(\int d\vec{\bar{\eta}'} \vec{\int d\eta'}\Bigr) J^2(A) e^{-\vec{\bar{\eta}'}^TA^{-1} \vec{\eta'}} \\
-  &=& J^2(A) \det(A^{-1}) = \det(A)
+  \Bigl(\int d\vec{\bar{\eta}} \int d\vec{\eta}\Bigr) e^{-\vec{\bar{\eta}}^T A \vec{\eta}} &=& \Bigl(\int d\vec{\bar{\eta}'} \int d\vec{\eta'}\Bigr) J^2(A) e^{-\vec{\bar{\eta}'}^TA^{-1} \vec{\eta'}} \\
+  &=& J^2(A) \det(A^{-1}) = \det(A)\label{grassmann_jacobian}
 \end{eqnarray}
 よって$\vec{\eta} \rightarrow\vec{\eta'} = A \vec{\eta}$とする変数変換については$J(A) = \det(A)$となるヤコビアン考える事になる。これは通常の多変数の積分の逆数のファクターがかかる事になっている。これもGrassmann数の特殊性である(式(\ref{grass_ana})から、Grassmann数の積分はある種微分と同じ結果を返すために、むしろ微分としてヤコビアンを考えていると思っても良いかもしれない。)
 
 \begin{mdframed}[linewidth=1pt]
-\textbf{練習問題(5):} 上の証明の手順に沿って、n = 2の時($\eta_1, \eta_2$がある時)について証明を実行してみよ\\
+\textbf{練習問題(5):} 上の証明の手順に沿って、n = 2の時($\eta_1, \eta_2$がある時)について、式(\ref{grassmann_gauss})と式(\ref{grassmann_jacobian})を実際に確認してみよ。\\
 \textbf{練習問題(6):} 追加のGassmann数$\vec{\bar{\psi}}, \vec{\psi}$(ただし$\vec{\psi} = [\psi_1, \dots, \psi_n]^T$)を導入した時、以下を示せ。
 \begin{eqnarray}
   \prod_i \Bigl(\int d\bar{\eta}_i \int d\eta_i\Bigr) \exp[-(\vec{\bar{\eta}}+\vec{\bar{\psi}})^T A (\vec{\eta} + \vec{\psi}) ] = \det(A)
@@ -147,4 +157,6 @@
 \end{eqnarray}
 となる事を示せ。(左辺の形を見て、「分配関数やモーメント母関数を似てるな」と思った方は良い嗅覚をお持ちである。)
 \end{mdframed}
+
+\section{分配関数の経路積分表示}
 \end{document}
