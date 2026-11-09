@@ -10,6 +10,7 @@
 \usepackage[dvipdfm]{graphicx}
 \usepackage[dvipdfmx,hidelinks]{hyperref}
 \usepackage{pxjahyper}
+\usepackage{comment}
 \newcommand{\p}{\partial}
 \newcommand{\poi}[1]{\{ #1 \}}
 %\newcommand{\log}{\mathrm{log}}
@@ -105,7 +106,7 @@
 \end{eqnarray}
 とすれば
 \begin{eqnarray}
-  \bra{\vec{\eta}}c^\dagger_i = \bra{\vec{\eta}} \bar{\eta_i}, \quad \frac{\p}{\p\bar{\eta}}\bra{\vec{\eta}} = \bra{\eta}c_i
+  \bra{\vec{\eta}}c^\dagger_i = \bra{\vec{\eta}} \bar{\eta_i}, \quad \frac{\p}{\p\bar{\eta}}\bra{\vec{\eta}} = \bra{\eta}c_i, \quad \braket{\eta}{\psi} = e^{\bar{\eta}\cdot\psi}
 \end{eqnarray}
 と書ける。ここで敢えて$\eta^*$と書かずに$\bar{\eta}$と書くのは、これらがGrassmann数の独立な元であることを強調する為であろう。
 
@@ -114,7 +115,8 @@
   \hat{1} = \int \prod_i \Bigl(d\bar{\eta}_i d\eta_i\Bigr) e^{-\sum_i\bar{\eta_i}\eta_i}\ket{\vec{\eta}}\bra{\vec{\eta}}
 \end{eqnarray}
 \begin{mdframed}[linewidth=1pt]
-\textbf{練習問題(4):} Fermionのcoherent状態の完全性について、Bosonの場合と同様の手続きによって証明せよ。
+\textbf{練習問題(4):} Fermionのcoherent状態の内積について確認せよ。\\
+\textbf{練習問題(5):} Fermionのcoherent状態の完全性について、Bosonの場合と同様の手続きによって証明せよ。
 \end{mdframed}
 
 最後に経路積分で使うのでGrassmann数のGauss積分の公式を導いておこう。
@@ -146,12 +148,12 @@
 よって$\vec{\eta} \rightarrow\vec{\eta'} = A \vec{\eta}$とする変数変換については$J(A) = \det(A)$となるヤコビアン考える事になる。これは通常の多変数の積分の逆数のファクターがかかる事になっている。これもGrassmann数の特殊性である(式(\ref{grass_ana})から、Grassmann数の積分はある種微分と同じ結果を返すために、むしろ微分としてヤコビアンを考えていると思っても良いかもしれない。)
 
 \begin{mdframed}[linewidth=1pt]
-\textbf{練習問題(5):} 上の証明の手順に沿って、n = 2の時($\eta_1, \eta_2$がある時)について、式(\ref{grassmann_gauss})と式(\ref{grassmann_jacobian})を実際に確認してみよ。\\
-\textbf{練習問題(6):} 追加のGassmann数$\vec{\bar{\psi}}, \vec{\psi}$(ただし$\vec{\psi} = [\psi_1, \dots, \psi_n]^T$)を導入した時、以下を示せ。
+\textbf{練習問題(6):} 上の証明の手順に沿って、n = 2の時($\eta_1, \eta_2$がある時)について、式(\ref{grassmann_gauss})と式(\ref{grassmann_jacobian})を実際に確認してみよ。\\
+\textbf{練習問題(7):} 追加のGassmann数$\vec{\bar{\psi}}, \vec{\psi}$(ただし$\vec{\psi} = [\psi_1, \dots, \psi_n]^T$)を導入した時、以下を示せ。
 \begin{eqnarray}
   \prod_i \Bigl(\int d\bar{\eta}_i \int d\eta_i\Bigr) \exp[-(\vec{\bar{\eta}}+\vec{\bar{\psi}})^T A (\vec{\eta} + \vec{\psi}) ] = \det(A)
 \end{eqnarray}
-\textbf{練習問題(7):} 上で証明した事を用いて、
+\textbf{練習問題(8):} 上で証明した事を用いて、
 \begin{eqnarray}
   \prod_i \Bigl(\int d\bar{\eta}_i \int d\eta_i\Bigr) \exp[-\vec{\bar{\eta}}^T A \vec{\eta} + \vec{\bar{\eta}}^T\cdot\vec{\psi} + \vec{\bar{\psi}}^T\cdot\vec{\eta}] = \det(A)\exp[\vec{\bar{\psi}}^T A^{-1} \vec{\psi}]\nonumber\\
 \end{eqnarray}
@@ -159,4 +161,113 @@
 \end{mdframed}
 
 \section{分配関数の経路積分表示}
+
+\subsection{コヒーレント状態によるトレース}
+逆温度を$\beta=1/T$（$k_{\mathrm B}=1$）、化学ポテンシャルを$\mu$とし、
+$\hat K=\hat H-\mu\hat N$とおく。大分配関数は$\hat{K}$の固有状態$\ket{\boldsymbol n}$($\hat{K}\ket{n} = \xi_n\ket{n}$)を用いて
+\begin{equation}
+  \Xi=\mathrm{Tr}\Bigl[e^{-\beta\hat K}\Bigr]
+   =\sum_{n}\bra{n}e^{-\beta\hat K}\ket{n}
+\end{equation}
+と書ける。以下ではコヒーレント状態の変数を$\psi,\bar\psi$($\psi$は複数変数(ベクトル)の場合もある)と総称し、$d\bar\psi d\psi$を$d(\bar\psi,\psi)$と略して書く。これらはボゾンの系では複素数であり、フェルミオンの系ではGrassmann数である。
+また、ファクター$\zeta$を導入し、ボゾンでは$\zeta=+1$、フェルミオンでは$\zeta=-1$とする。
+
+占有数基底の和にコヒーレント状態の完全性を挿入すると、
+\begin{align}
+  Z &= \int d(\bar\psi,\psi)\,e^{-\bar\psi\cdot\psi} \sum_{n}\braket{n}{\psi}\bra{\psi}e^{-\beta\hat K}\ket{n} \\
+  &= \int d(\bar\psi,\psi)\,e^{-\bar\psi\cdot\psi} \sum_{n}\braket{n}{\psi}\braket{\psi}{n}e^{-\beta\xi_n} \label{25}\\
+  &= \int d(\bar\psi,\psi)\,e^{-\bar\psi\cdot\psi} \sum_{n}\braket{\zeta\psi}{n}\braket{n}{\psi}e^{-\beta\xi_n} \label{26}\\
+  &= \int d(\bar\psi,\psi)\,e^{-\bar\psi\cdot\psi} \sum_{n}\braket{\zeta\psi}{n}\bra{n}e^{-\beta\hat K}\ket{\psi} \\
+  &= \int d(\bar\psi,\psi) e^{-\bar\psi\cdot\psi} \bra{\zeta\psi}e^{-\beta\hat K}\ket{\psi}.
+\end{align}
+式(\ref{25})から式(\ref{26})の式変形には、状態$\ket{n}$はk個の粒子を含む状態とすると、$\braket{n}{\psi}\braket{\psi}{n} = \zeta^k\braket{\psi}{n}\braket{n}{\psi} = \braket{\zeta\psi}{n}\braket{n}{\psi}$である事を用いた。
+
+\subsection{虚時間の離散化と連続極限}
+$\beta$を$N$等分して$\Delta\tau=\beta/N$とし、$e^{-\beta\hat K}$を
+$N$個の$e^{-\Delta\tau\hat K}$の積に分解する。隣り合う因子の間に完全性を挿入する。
+$\hat K$を正規順序に並べ、その生成・消滅演算子をそれぞれ
+$\bar\psi,\psi$に置き換えたものを$K(\bar\psi,\psi)$とすると、
+\begin{align}
+  Z &= \int d(\bar\psi_0,\psi_0) e^{-\bar\psi_0\cdot\psi_0} \bra{\zeta\psi_0}e^{-\beta\hat K}\ket{\psi_0} \\
+  &= \prod_{i=0}^{N-1}\Bigl(\int d(\bar\psi_i,\psi_i) e^{-\bar\psi_i\cdot\psi_i}\Bigr)\bra{\zeta\psi_0}e^{-\tau\hat{K}}\ket{\psi_{N-1}}\dots\bra{\psi_1}e^{-\tau\hat{K}}\ket{\psi_0}
+\end{align}
+\begin{align}
+  \bra{\psi_{j+1}}e^{-\Delta\tau\hat K}\ket{\psi_j}
+  =\exp\Bigl[\bar\psi_{j+1}\cdot\psi_j-\Delta\tau K(\bar\psi_{j+1},\psi_j)\Bigr].
+\end{align}
+便宜上$\phi_N = \zeta\psi_0$とし、各完全性のガウス因子を取り込むと、
+\begin{align}
+  Z &= \prod_{i=0}^{N-1}\Bigl(\int d(\bar\psi_i,\psi_i) \exp\Bigl[-\Delta\tau\Bigl\{-\frac{\bar{\psi}_{i+1}-\bar{\psi}_i}{\Delta\tau}\psi_i + K(\bar{\psi}_{i+1}, \psi_i) \Bigr\}\Bigr]\Bigr)
+\end{align}
+$N\rightarrow\infty$の極限では、
+\begin{align}
+  Z &= \int\mathcal D[\bar\psi,\psi]\,e^{-S[\bar\psi,\psi]},\\
+  S[\bar\psi,\psi]
+    &= \int_0^\beta d\tau\,\Bigl[
+       \bar\psi(\tau)\cdot\partial_\tau\psi(\tau)
+       +K(\bar\psi(\tau+\Delta\tau),\psi(\tau))\Bigr].\label{imagtime_action}
+\end{align}
+ただし虚時間の境界条件として$\psi(\beta)=\zeta\psi(0)$、
+$\bar\psi(\beta)=\zeta\bar\psi(0)$である。$N\rightarrow\infty$の極限で$\Delta\tau\rightarrow0$であるが、これが後々重要な役割をするので残しておく。
+
+\subsection{松原振動数と自由系の分配関数}
+境界条件に合わせて、虚時間の場を
+\begin{align}
+  \psi(\tau)&=\frac{1}{\sqrt{\beta}}\sum_{n\in\mathbb Z}\psi_n e^{-i\omega_n\tau},
+  &\psi_n&=\frac{1}{\sqrt{\beta}}\int_0^\beta d\tau\,\psi(\tau)e^{i\omega_n\tau},\\
+  \bar\psi(\tau)&=\frac{1}{\sqrt{\beta}}\sum_{n\in\mathbb Z}
+       \bar\psi_n e^{i\omega_n\tau},
+  &\omega_n&=
+  \begin{cases}
+    2\pi nT & (\text{ボゾン}),\\
+    (2n+1)\pi T & (\text{フェルミオン})
+  \end{cases}
+\end{align}
+と展開する。この$\omega_n$を松原振動数と呼ぶ。時刻のずれを残すと、
+$\int_0^\beta d\tau\,\bar\psi(\tau+\Delta\tau)\cdot\psi(\tau)
+=\sum_n e^{i\omega_n\Delta\tau}\bar\psi_n\cdot\psi_n$となる。一旦相互作用がない事を仮定すると、$K(\bar\psi, \psi) = \bar\psi_a K_{ab}\psi_b$の形で書ける\footnote{indexの$a,b$は略記している$\vec{\psi}(\tau)$の$\psi_a(\tau)$成分という意味である。松原振動数のindex $n$とは異なるので誤解しないように}ので、式(\ref{imagtime_action})に代入すると、
+\begin{align}
+  S[\bar\psi,\psi] = \sum_n \bar\psi_n (-i\omega_n + Ke^{i\omega_n\Delta\tau}) \psi_n 
+\end{align}
+ただし$K$は$K_{ab}$の行列表示したものである。
+
+\begin{comment}
+自由系で一粒子準位を$\varepsilon_a$、$\xi_a=\varepsilon_a-\mu$とすると、
+$\hat K=\sum_a \xi_a \hat n_a$であり、作用は
+\begin{equation}
+  S=\sum_{a,n}\bar\psi_{an}(-i\omega_n+\xi_a)\psi_{an}
+\end{equation}
+と対角化される。ボゾンのガウス積分は行列式の逆数を与え、
+フェルミオンのガウス積分は式(\ref{grassmann_gauss})の通り行列式を与える。
+したがって$Z$は形式的に$\det[\beta(\partial_\tau+\xi)]^{-\zeta}$と表せる。
+ここで$\xi$は一粒子準位の空間で対角成分$\xi_a$を持ち、行列式には
+虚時間の境界条件と積分測度に対応する正規化が必要である。
+
+正規化を含めて評価するには、有限の$M$で自由系の短時間行列要素を使う。
+\begin{equation}
+  \bra{\psi_{j+1}}e^{-\Delta\tau\hat K}\ket{\psi_j}
+    = \exp\Bigl[\sum_a\bar\psi_{a,j+1}e^{-\Delta\tau\xi_a}\psi_{a,j}\Bigr].
+\end{equation}
+離散フーリエ変換後のガウス積分の固有値は
+$1-e^{-\Delta\tau\xi_a}e^{i\omega_n\Delta\tau}$であり、
+$n=0,\ldots,M-1$にわたる積は$1-\zeta e^{-\beta\xi_a}$となる。
+よって
+\begin{equation}
+  Z=\prod_a(1-\zeta e^{-\beta\xi_a})^{-\zeta}.
+\end{equation}
+ボゾンでは各準位について$\xi_a>0$を仮定する。
+\end{comment}
+
+\subsection{練習：粒子数期待値}
+この後に出てくるグリーン関数や解析接続の概念の良い例になるので、練習問題として、粒子数期待値を分配関数から計算してみよう。
+index $a$の粒子数期待値は、便宜上化学ポテンシャルをindex $a$に依存する形で$\mu_a$と書き、
+\begin{align}
+  \ev{n_a} &= -\frac{1}{\beta}\left.\frac{\p}{\p\mu_a}\right|_{\mu_a=\mu}\mathrm{ln}Z[\beta, \{\mu_a\}] \\
+  &= \prod_n\Bigl(\int\mathcal D[\bar\psi,\psi]\Bigr)\Bigl[\frac{1}{\beta}\int_0^\beta d\tau \bar\psi_a(\tau+\Delta\tau)\psi_a(\tau) e^{-S[\bar\psi, \psi]}\Bigr]/Z\\
+  &= \frac{1}{\beta}\int_0^\beta d\tau\ev{\bar\psi_a(\tau+\Delta\tau)\psi_a(\tau)} = \ev{\bar\psi_a(\tau+\Delta\tau)\psi_a(\tau)}\\
+  &= \frac{1}{\beta}\sum_n \ev{\bar{\psi}_{n,a}\psi_{n,a}}e^{i\omega_n\Delta\tau}\\
+  &= \frac{1}{\beta}\sum_n\Bigl(\frac{e^{i\omega_n\Delta\tau}}{i\omega_n - Ke^{i\omega_n\Delta\tau}}\Bigr)_{aa}
+\end{align}
+
+
 \end{document}
