@@ -231,32 +231,23 @@ $\int_0^\beta d\tau\,\bar\psi(\tau+\Delta\tau)\cdot\psi(\tau)
 \end{align}
 ただし$K$は$K_{ab}$の行列表示したものである。
 
-\begin{comment}
-自由系で一粒子準位を$\varepsilon_a$、$\xi_a=\varepsilon_a-\mu$とすると、
-$\hat K=\sum_a \xi_a \hat n_a$であり、作用は
+%\begin{comment}
+$a$を1粒子Hamiltonianの固有状態のindexとすると、そのエネルギー固有値を$\varepsilon_a$、$\xi_a=\varepsilon_a-\mu$とすると、
+$K(\bar\psi, \psi) = \sum_a \xi_a \bar\psi_a\psi_a$であり、作用は
 \begin{equation}
-  S=\sum_{a,n}\bar\psi_{an}(-i\omega_n+\xi_a)\psi_{an}
+  S=\sum_{a,n}\bar\psi_{an}(-i\omega_n+\xi_a)\psi_{an}\label{matsubara_action}
 \end{equation}
 と対角化される。ボゾンのガウス積分は行列式の逆数を与え、
 フェルミオンのガウス積分は式(\ref{grassmann_gauss})の通り行列式を与える。
-したがって$Z$は形式的に$\det[\beta(\partial_\tau+\xi)]^{-\zeta}$と表せる。
-ここで$\xi$は一粒子準位の空間で対角成分$\xi_a$を持ち、行列式には
-虚時間の境界条件と積分測度に対応する正規化が必要である。
+したがって$Z$は形式的に$\prod_n\det[\beta(-i\omega_n+\xi)]^{-\zeta}$と表せる。
+ここで$\beta$が出てきたのは、$\prod_i\int d\bar\psi_i \int d\psi_i$を$\mathcal{D}[\bar\psi, \psi]$にした際に、積分測度をきちんとする必要があったのだ。(一度経路積分形式の導出を終える事を優先したため説明は一旦スキップした。)
 
-正規化を含めて評価するには、有限の$M$で自由系の短時間行列要素を使う。
-\begin{equation}
-  \bra{\psi_{j+1}}e^{-\Delta\tau\hat K}\ket{\psi_j}
-    = \exp\Bigl[\sum_a\bar\psi_{a,j+1}e^{-\Delta\tau\xi_a}\psi_{a,j}\Bigr].
-\end{equation}
-離散フーリエ変換後のガウス積分の固有値は
-$1-e^{-\Delta\tau\xi_a}e^{i\omega_n\Delta\tau}$であり、
-$n=0,\ldots,M-1$にわたる積は$1-\zeta e^{-\beta\xi_a}$となる。
-よって
-\begin{equation}
-  Z=\prod_a(1-\zeta e^{-\beta\xi_a})^{-\zeta}.
-\end{equation}
-ボゾンでは各準位について$\xi_a>0$を仮定する。
-\end{comment}
+つまり元々離散の場合に、離散のFourier変換をしておいて$\sum_i \bar\psi_{i+1}\psi_i \rightarrow \sum_n \bar\psi_{n}\psi_n e^{i\omega_n\Delta\tau}$として、離散版の作用$S_N$は
+\begin{align}
+  S_N = \sum_{n=1}^N \bar\psi_n(1 - e^{i\omega_n\Delta\tau}(1-\Delta\tau K))\psi_n \quad \rightarrow \quad  \sum_{n=1}^N \Delta\tau\bar\psi_n(-i\omega_n+Ke^{i\omega_n\Delta\tau})\psi_n
+\end{align}
+これが式(\ref{matsubara_action})と一致するには$\bar\psi' = \sqrt{\Delta\tau}\bar\psi$, $\psi' = \sqrt{\Delta\tau}\psi$として変数変換が必要になる
+この際に$\prod_{n=1}^N\int d\bar\psi_n \int d\psi_n = \Bigl(\frac{\beta}{N}\Bigr)^{-\zeta N}\prod_{n=1}^N\int d\bar\psi'_n \int d\psi'_n$となるので、実は$\mathcal{D}[\bar\psi, \psi]$の中には$\mathrm{lim}_{N\rightarrow\infty}(\beta/N)^{-\zeta N}$が含まれており、この$\beta$が出てきていたのだ。
 
 \subsection{練習：粒子数期待値}
 この後に出てくるグリーン関数や解析接続の概念の良い例になるので、練習問題として、粒子数期待値を分配関数から計算してみよう。
@@ -265,9 +256,16 @@ index $a$の粒子数期待値は、便宜上化学ポテンシャルをindex $a
   \ev{n_a} &= -\frac{1}{\beta}\left.\frac{\p}{\p\mu_a}\right|_{\mu_a=\mu}\mathrm{ln}Z[\beta, \{\mu_a\}] \\
   &= \prod_n\Bigl(\int\mathcal D[\bar\psi,\psi]\Bigr)\Bigl[\frac{1}{\beta}\int_0^\beta d\tau \bar\psi_a(\tau+\Delta\tau)\psi_a(\tau) e^{-S[\bar\psi, \psi]}\Bigr]/Z\\
   &= \frac{1}{\beta}\int_0^\beta d\tau\ev{\bar\psi_a(\tau+\Delta\tau)\psi_a(\tau)} = \ev{\bar\psi_a(\tau+\Delta\tau)\psi_a(\tau)}\\
-  &= \frac{1}{\beta}\sum_n \ev{\bar{\psi}_{n,a}\psi_{n,a}}e^{i\omega_n\Delta\tau}\\
-  &= \frac{1}{\beta}\sum_n\Bigl(\frac{e^{i\omega_n\Delta\tau}}{i\omega_n - Ke^{i\omega_n\Delta\tau}}\Bigr)_{aa}
+  &= \frac{1}{\beta}\sum_n \ev{\bar{\psi}_{n,a}\psi_{n,a}}e^{i\omega_n\Delta\tau}\label{tauGreen}\\
+  &= -\frac{\zeta}{\beta}\sum_n\Bigl(\frac{e^{i\omega_n\Delta\tau}}{i\omega_n - Ke^{i\omega_n\Delta\tau}}\Bigr)_{aa}\label{Matsubara_nev}
 \end{align}
-
+式(\ref{tauGreen})から式(\ref{Matsubara_nev})について少し説明を追記する。もしも系がボゾンから構成されていれば、
+\begin{align}
+  \ev{\bar\psi_{n,a}\psi_{n,a}} &= \prod_m(\int \mathcal{D}[\bar\psi_m, \psi_m]) \bar\psi_{n,a}\psi_{n,a} \exp[-\sum_m\bar\psi_m\cdot(-i\omega_m + \tilde{K}\cdot\psi_m]/\Xi\\
+  &= -\frac{\p}{\p \tilde{K}_{aa}}\mathrm{ln}\Bigl[\int\mathcal{D}[\bar\psi_n, \psi_n]\exp[-\bar\psi_n\cdot(-i\omega_n + \tilde{K})\cdot\psi_n]\Bigr]\\
+  &=-\frac{\p}{\p \tilde{K}_{aa}}\mathrm{ln}\Bigl[\det(-i\omega_n + \tilde{K})^{-\zeta}\Bigr]\\
+  &= \Bigl((-i\omega_n + \tilde{K})^{-1}\Bigr)_{aa} = -\zeta\Bigl((i\omega_n - \tilde{K})^{-1}\Bigr)_{aa}\\
+  &= -\zeta\Bigl((i\omega_n - Ke^{i\omega_n\Delta\tau})^{-1}\Bigr)_{aa}
+\end{align}
 
 \end{document}
