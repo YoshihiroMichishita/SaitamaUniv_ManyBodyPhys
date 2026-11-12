@@ -156,8 +156,14 @@
 \textbf{練習問題(8):} 上で証明した事を用いて、
 \begin{eqnarray}
   \prod_i \Bigl(\int d\bar{\eta}_i \int d\eta_i\Bigr) \exp[-\vec{\bar{\eta}}^T A \vec{\eta} + \vec{\bar{\eta}}^T\cdot\vec{\psi} + \vec{\bar{\psi}}^T\cdot\vec{\eta}] = \det(A)\exp[\vec{\bar{\psi}}^T A^{-1} \vec{\psi}]\nonumber\\
+  \label{moment}
 \end{eqnarray}
-となる事を示せ。(左辺の形を見て、「分配関数やモーメント母関数を似てるな」と思った方は良い嗅覚をお持ちである。)
+となる事を示せ。(左辺の形を見て、「分配関数やモーメント母関数を似てるな」と思った方は良い嗅覚をお持ちである。)\\
+よって式(\ref{moment})を用いて
+\begin{eqnarray}
+  \ev{\eta_i\bar{\eta}_j} &=& \left.\frac{\p}{\p\psi_j}\frac{\p}{\p\bar\psi_i}\right|_{\psi=0}\log\Bigl\{\prod_k \Bigl(\int d\bar{\eta}_k \int d\eta_k\Bigr) \exp\bigl[-\vec{\bar{\eta}}^T A \vec{\eta}+ \vec{\bar{\eta}}^T\cdot\vec{\psi} + \vec{\bar{\psi}}^T\cdot\vec{\eta}\bigr]\Bigr\}\nonumber\\
+   &=& (A^{-1})_{ij}\label{Grassmann_Green}
+\end{eqnarray}
 \end{mdframed}
 
 \section{分配関数の経路積分表示}
@@ -256,10 +262,10 @@ index $a$の粒子数期待値は、便宜上化学ポテンシャルをindex $a
   \ev{n_a} &= -\frac{1}{\beta}\left.\frac{\p}{\p\mu_a}\right|_{\mu_a=\mu}\mathrm{ln}Z[\beta, \{\mu_a\}] \\
   &= \prod_n\Bigl(\int\mathcal D[\bar\psi,\psi]\Bigr)\Bigl[\frac{1}{\beta}\int_0^\beta d\tau \bar\psi_a(\tau+\Delta\tau)\psi_a(\tau) e^{-S[\bar\psi, \psi]}\Bigr]/Z\\
   &= \frac{1}{\beta}\int_0^\beta d\tau\ev{\bar\psi_a(\tau+\Delta\tau)\psi_a(\tau)} = \ev{\bar\psi_a(\tau+\Delta\tau)\psi_a(\tau)}\\
-  &= \frac{1}{\beta}\sum_n \ev{\bar{\psi}_{n,a}\psi_{n,a}}e^{i\omega_n\Delta\tau}\label{tauGreen}\\
-  &= -\frac{\zeta}{\beta}\sum_n\Bigl(\frac{e^{i\omega_n\Delta\tau}}{i\omega_n - Ke^{i\omega_n\Delta\tau}}\Bigr)_{aa}\label{Matsubara_nev}
+  &= \frac{1}{\beta}\sum_n \ev{\bar{\psi}_{n,a}\psi_{n,a}}e^{i\omega_n\Delta\tau} = -\frac{\zeta}{\beta}\sum_n\Bigl(\frac{e^{i\omega_n\Delta\tau}}{i\omega_n - Ke^{i\omega_n\Delta\tau}}\Bigr)_{aa}\label{Matsubara_nev}
 \end{align}
-式(\ref{tauGreen})から式(\ref{Matsubara_nev})について少し説明を追記する。もしも系がボゾンから構成されていれば、
+最後の等式について少し説明を追記する。もしも系がボゾンから構成されていれば、
+%式(\ref{tauGreen})から式(\ref{Matsubara_nev})について少し説明を追記する。もしも系がボゾンから構成されていれば、
 \begin{align}
   \ev{\bar\psi_{n,a}\psi_{n,a}} &= \prod_m(\int \mathcal{D}[\bar\psi_m, \psi_m]) \bar\psi_{n,a}\psi_{n,a} \exp[-\sum_m\bar\psi_m\cdot(-i\omega_m + \tilde{K}\cdot\psi_m]/\Xi\\
   &= -\frac{\p}{\p \tilde{K}_{aa}}\mathrm{ln}\Bigl[\int\mathcal{D}[\bar\psi_n, \psi_n]\exp[-\bar\psi_n\cdot(-i\omega_n + \tilde{K})\cdot\psi_n]\Bigr]\\
@@ -267,5 +273,46 @@ index $a$の粒子数期待値は、便宜上化学ポテンシャルをindex $a
   &= \Bigl((-i\omega_n + \tilde{K})^{-1}\Bigr)_{aa} = -\zeta\Bigl((i\omega_n - \tilde{K})^{-1}\Bigr)_{aa}\\
   &= -\zeta\Bigl((i\omega_n - Ke^{i\omega_n\Delta\tau})^{-1}\Bigr)_{aa}
 \end{align}
+またフェルミオンの場合は、式(\ref{Grassmann_Green})を用いて、同様に計算できる。
 
+ひとまず、粒子数期待値が式(\ref{Matsubara_nev})の形で書けることは分かった。ところがこれは無限和を含んでいるので、$z = i\omega_n$に１次の極を持つ関数を導入し、複素積分を用いて計算する、という方針を取る。簡単のため$a$を$K$の固有状態のモードのindexということにすればそのような関数$F(z)$を導入して
+\begin{align}
+  -\frac{\zeta}{\beta}\sum_n\frac{e^{i\omega_n\Delta\tau}}{i\omega_n - \xi_ae^{i\omega_n\Delta\tau}} = -\frac{\zeta}{2\pi i\beta}\oint_{\gamma_0} dz \frac{e^{z\Delta\tau}}{z - \xi_ae^{z\Delta\tau}} F(z)
+\end{align}
+と書ける。ここで$\gamma_0$は$F(z)$の極を囲み、$1/(z-\xi_ae^{z\Delta\tau})$の極は囲わないような閉曲線である。周期的に極を持つようにするには$F(z)$は$F(z) \propto 1/(e^{\beta z}-\zeta)$とすれば良い。$e^{\beta (i\omega_n + \delta z)}-\zeta \simeq \zeta\beta\delta z$となるので、
+\begin{align}
+  \frac{1}{2\pi i}\oint_{\gamma_0} dz \frac{g(z)}{e^{\beta z}-\zeta} = \sum_n \frac{g(i\omega_n)}{\zeta\beta} = \sum_n \frac{\zeta g(i\omega_n)}{\beta} 
+\end{align}
+である。よってこれを用いると
+\begin{align}
+  &-\frac{\zeta}{\beta}\sum_n\frac{e^{i\omega_n\Delta\tau}}{i\omega_n - \xi_ae^{i\omega_n\Delta\tau}} = -\frac{1}{2\pi i}\oint_{\gamma_0} dz \frac{e^{z\Delta\tau}}{z - \xi_ae^{z\Delta\tau}} f_{\zeta}(z)\\
+  &f_{\zeta}(z) = \frac{1}{e^{\beta z}-\zeta}
+\end{align}
+と書き直せる。ここで$f_{\zeta}(z)$はボゾンの場合はBose分布関数、フェルミオンの場合はFermi分布関数である。
+ところで積分経路$\gamma_0$は$\xi_ae^{z\Delta\tau}$を囲ってさえなければ良いので、下図の$\gamma_1$と$\gamma_2$の経路の和($\oint_{\gamma_0}=\oint_{\gamma_1}+\oint_{\gamma_2}$)に書き直すことが出来る。さらに、無限遠の円弧の積分$\oint_{\gamma_4}$は、
+\begin{align}
+  &\oint_{\gamma_4} dz \frac{e^{z\Delta\tau}}{z - \xi_ae^{z\Delta\tau}} f_{\zeta}(z)\nonumber\\
+  & = \lim_{r\rightarrow\infty}\int_0^{2\pi} d\theta \frac{e^{r e^{i\theta}\Delta\tau}}{r e^{i\theta} - \xi_ae^{r e^{i\theta}\Delta\tau}} \frac{1}{e^{\beta re^{i\theta}}-\zeta} i r e^{i\theta}
+\end{align}
+被積分関数について
+\begin{align}
+    &\lim_{r\rightarrow\infty}\int_0^{2\pi} d\theta \frac{e^{r e^{i\theta}\Delta\tau}}{r e^{i\theta} - \xi_ae^{r e^{i\theta}\Delta\tau}} \frac{i r e^{i\theta}}{e^{\beta re^{i\theta}}-\zeta}\nonumber\\
+    &\rightarrow \begin{cases}
+      -ir e^{i\theta}/(\xi_ae^{\beta r e^{i\theta}}) \rightarrow 0 & (\mathrm{Re}[re^{i\theta}]>0\quad(\mathrm{Re}[re^{i\theta}] = \infty))\\
+      -ie^{r e^{i\theta}}/\zeta\rightarrow0 & (\mathrm{Re}[re^{i\theta}]<0\quad(\mathrm{Re}[re^{i\theta}] = -\infty))
+    \end{cases}
+\end{align}
+であり、$\mathrm{Re}(re^{i\theta})=0$では有限の値だが、積分測度がゼロなので積分値には寄与しない(これが発散していたらデルタ関数と同じ理屈で積分値に寄与する)。よって、
+\begin{align}
+  &\oint_{\gamma_4} dz \frac{e^{z\Delta\tau}}{z - \xi_ae^{z\Delta\tau}} f_{\zeta}(z) = 0
+\end{align}
+となる。よって、この被積分関数について$\oint_{\gamma_0} = \oint_{\gamma_1} + \oint_{\gamma_2} - \oint_{\gamma_4} = -\oint_{\gamma_3}$であり、$\gamma_3$は、$z = \xi_ae^{z\Delta\tau}$の解を囲むような閉曲線である。よって
+\begin{align}
+  \ev{n_a} &= \frac{1}{2\pi i}\oint_{\gamma_3} dz \frac{e^{z\Delta\tau}}{z - \xi_ae^{z\Delta\tau}} f_{\zeta}(z)\\
+  &= f(\xi_a)
+\end{align}
+が得られる。今回は練習問題として、知っている結果を経路積分から導くことが出来ることを確認した。このテクニックは今後でも使うので覚えておくこと。
+
+\section{応答関数と量子幾何}
+あああ
 \end{document}
