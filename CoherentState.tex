@@ -289,7 +289,14 @@ index $a$の粒子数期待値は、便宜上化学ポテンシャルをindex $a
   &f_{\zeta}(z) = \frac{1}{e^{\beta z}-\zeta}
 \end{align}
 と書き直せる。ここで$f_{\zeta}(z)$はボゾンの場合はBose分布関数、フェルミオンの場合はFermi分布関数である。
-ところで積分経路$\gamma_0$は$\xi_ae^{z\Delta\tau}$を囲ってさえなければ良いので、下図の$\gamma_1$と$\gamma_2$の経路の和($\oint_{\gamma_0}=\oint_{\gamma_1}+\oint_{\gamma_2}$)に書き直すことが出来る。さらに、無限遠の円弧の積分$\oint_{\gamma_4}$は、
+ところで積分経路$\gamma_0$は$\xi_ae^{z\Delta\tau}$を囲ってさえなければ良いので、下図の$\gamma_1$と$\gamma_2$の経路の和($\oint_{\gamma_0}=\oint_{\gamma_1}+\oint_{\gamma_2}$)に書き直すことが出来る。
+\begin{figure}[t]
+  \centering
+    \includegraphics[width=0.5\linewidth]{fig/contour.png}
+    \caption{複素積分の経路}
+    \label{fig:contour}
+\end{figure}
+さらに、無限遠の円弧の積分$\oint_{\gamma_4}$は、
 \begin{align}
   &\oint_{\gamma_4} dz \frac{e^{z\Delta\tau}}{z - \xi_ae^{z\Delta\tau}} f_{\zeta}(z)\nonumber\\
   & = \lim_{r\rightarrow\infty}\int_0^{2\pi} d\theta \frac{e^{r e^{i\theta}\Delta\tau}}{r e^{i\theta} - \xi_ae^{r e^{i\theta}\Delta\tau}} \frac{1}{e^{\beta re^{i\theta}}-\zeta} i r e^{i\theta}
@@ -308,8 +315,8 @@ index $a$の粒子数期待値は、便宜上化学ポテンシャルをindex $a
 \end{align}
 となる。よって、この被積分関数について$\oint_{\gamma_0} = \oint_{\gamma_1} + \oint_{\gamma_2} - \oint_{\gamma_4} = -\oint_{\gamma_3}$であり、$\gamma_3$は、$z = \xi_ae^{z\Delta\tau}$の解を囲むような閉曲線である。よって
 \begin{align}
-  \ev{n_a} &= \frac{1}{2\pi i}\oint_{\gamma_3} dz \frac{e^{z\Delta\tau}}{z - \xi_ae^{z\Delta\tau}} f_{\zeta}(z)\\
-  &= f(\xi_a)
+  \ev{n_a} &= \frac{1}{2\pi i}\oint_{\gamma_3} dz \frac{e^{z\Delta\tau}}{z - \xi_ae^{z\Delta\tau}} f_{\zeta}(z) = \frac{1}{2\pi i}\oint_{\gamma_3} dz \frac{1}{z - \xi_a} f_{\zeta}(z)\\
+  &= f_{\zeta}(\xi_a)
 \end{align}
 が得られる。今回は練習問題として、知っている結果を経路積分から導くことが出来ることを確認した。このテクニックは今後でも使うので覚えておくこと。
 
