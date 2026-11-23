@@ -535,7 +535,7 @@ $i\omega_n\longrightarrow\omega+i0^+$と解析接続することで遅延応答�
 \end{align}
 ところで、もし結晶の話を考えたい場合、なんとなくハミルトニアンに結晶の並進対称性が欲しくなるであろう。しかしlength gaugeの$q \vec{E}(t)\cdot\vec{\hat{r}}$はそのような対称性を有していない。よって、$\chi(\hat{r}, t)$をうまく設定することでこの項を消し、並進対称性を復活させる事を試みたい。$\chi(\hat{r}, t) = -q[\int_0^t dt' \vec{E}(t')]\cdot \vec{\hat{r}} = q \vec{A}(t)\cdot \vec{\hat{r}}$とすれば、
 \begin{align}
-    \hat{\tilde{H}}(t) = e^{i\chi(\hat{r}, t)}\Bigl(\frac{\hat{p}^2}{2m} + V(\hat{r})\Bigr)e^{-i\chi(\hat{r}, t)} = \frac{(\hat{p} - q \vec{A}(t))^2}{2m} + V(\hat{r})
+    \hat{\tilde{H}}(t) = e^{i\chi(\hat{r}, t)}\Bigl(\frac{\hat{p}^2}{2m} + V(\hat{r})\Bigr)e^{-i\chi(\hat{r}, t)} = \frac{(\hat{p} - q \vec{A}(t))^2}{2m} + V(\hat{r})\label{velocity_gauge0}
 \end{align}
 となり、これは並進対称性を持つ。このゲージの取り方を(ベクトルポテンシャルが運動量と結合している事から)velocity gauge(速さゲージ)と呼ぶ。
 
@@ -546,10 +546,10 @@ $i\omega_n\longrightarrow\omega+i0^+$と解析接続することで遅延応答�
   &\hat{H}\ket{\psi_n} = E_n\ket{\psi_n}, \quad [\hat{T}_R,\hat{H}] = 0\\
   &\Rightarrow \hat{T}_R\hat{H}\ket{\psi_n} = \hat{T}_RE_n\ket{\psi_n} = E_n\hat{T}_R\ket{\psi_n} = \hat{H}\hat{T}_R\ket{\psi_n}\label{same_eig}
 \end{align}
-式(\ref{same_eig})より$\hat{T}_R\ket{\psi_n} \propto \ket{\psi_n}$である事がわかる。さらに、$\hat{T}_R*\hat{T}_{R'} = \hat{T}_{R+R'}$より$\hat{T}_R\ket{\psi_n} = e^{ikR} \ket{\psi_n}$と書けると同定できる。ここで$\ket{\psi_n}$が$\hat{T}_R$について固有値$e^{ikR}$の固有状態である事を明示するために以降では$\ket{\psi_{nk}}$と表記する。
+式(\ref{same_eig})より$\hat{T}_R\ket{\psi_n} \propto \ket{\psi_n}$である事がわかる。さらに、$\hat{T}_R*\hat{T}_{R'} = \hat{T}_{R+R'}$より$\hat{T}_R\ket{\psi_n} = e^{-ikR} \ket{\psi_n}$と書けると同定できる。ここで$\ket{\psi_n}$が$\hat{T}_R$について固有値$e^{-ikR}$の固有状態である事を明示するために以降では$\ket{\psi_{nk}}$と表記する。
 またこの性質より、
 \begin{align}
-  \braket{r-R}{\psi_{nk}} = \bra{r}\hat{T}_R\ket{\psi_{nk}} = e^{ikR}\braket{r}{\psi_{nk}} \Leftrightarrow \psi_{nk}(r-R) = e^{ikR}\psi_{nk}(r) 
+  \braket{r-R}{\psi_{nk}} = \bra{r}\hat{T}_R\ket{\psi_{nk}} = e^{-ikR}\braket{r}{\psi_{nk}} \Leftrightarrow \psi_{nk}(r-R) = e^{-ikR}\psi_{nk}(r) 
 \end{align}
 が満たされる。
 ここでWannier状態$\ket{w_n(R)} = \sum_k e^{-ikR}\ket{\psi_n(k)}/\sqrt{N}$を導入すると、
@@ -579,6 +579,35 @@ $i\omega_n\longrightarrow\omega+i0^+$と解析接続することで遅延応答�
    &= \sum_{mn}\sum_{k}\ket{\psi_{mk}}\bra{\psi_{nk}}\frac{1}{N}\sum_{R,R'}t_{mn}(R'- R)e^{ik(R'-R)} = \sum_{mn}\sum_{k}\ket{\psi_{mk}}\bra{\psi_{nk}} H_{mn}(k).
 \end{align}
 2行目から3行目の式変形には$[\hat{T}_R,\hat{H}]=0$(すなわち$k$について対角)である事を用いた。$H_{mn}(k)$の表現でのハミルトニアンをBloch Hamiltonianと呼ぶ。
+
+ここで後の便利のために、周期関数も導入しておこう。
+$\ket{u_{nk}} = e^{-ik\hat{r}}\ket{\psi_{nk}}$としておくと
+\begin{align}
+  \braket{r-R}{u_{nk}} &= \bra{r-R}e^{-ik(r-R)}\ket{\psi_{nk}} = e^{-ik(r-R)}e^{-ikR}\braket{r}{\psi_{nk}} = \bra{r}e^{-ikr}\ket{\psi_{nk}} = \braket{r}{u_{nk}}\\
+  \Rightarrow & u_{nk}(r-R) = u_{nk}(r)
+\end{align}
+この周期状態を用いると$H_{mn}(k)$は
+\begin{align}
+  H_{mn}(k) = \bra{\psi_{mk}}\hat{H}\ket{\psi_{nk}} = \bra{u_{mk}}e^{-ik\hat{r}}\hat{H}e^{ik\hat{r}}\ket{u_{nk}} = \bra{u_{mk}}\Bigl(\frac{(\hat{p} + k)^2}{2m} + V(\hat{r})\Bigr)\ket{u_{nk}} 
+\end{align}
+と書ける。
+\begin{comment}
+Hamiltonianの表現も見ておこう。すなわち、
+\begin{align}
+  \hat{H} = &\sum_{m,n}\sum_k \ket{u_{mk}}\bra{u_{mk}}\hat{H}\ket{u_{nk}}\bra{u_{nk}} = \sum_{m,n}\sum_k\ket{u_{mk}}\bra{u_{nk}} h_{mn}(k)\\
+  h_{mn}(k) &= \bra{u_{mk}}\hat{H}\ket{u_{nk}} = \bra{\psi_{mk}}e^{-ik\hat{r}}\hat{H}e^{ik\hat{r}}\ket{\psi_{nk}}\\
+  &=  \bra{\psi_{mk}}\Bigl(\frac{(\hat{p} + k)^2}{2m} + V(\hat{r})\Bigr)\ket{\psi_{nk}} = \delta_{mn}(E_n+\frac{k^2}{2m}) + \frac{k}{m}\bra{\psi_{mk}}p\ket{\psi_{nk}}
+\end{align}
+\end{comment}
+
+\subsubsection{Bloch Hamiltonianにおけるベクトルポテンシャル}
+式(\ref{velocity_gauge0})からスタートして、Bloch Hamiltonianの形にしてみよう。ベクトルポテンシャルの無い状態での表現をすることにして
+\begin{align}
+  \hat{H}_V(t) = &\sum_{m,n}\sum_k \ket{\psi_{mk}}\bra{\psi_{mk}}\hat{H}_V(t)\ket{\psi_{nk}}\bra{\psi_{nk}} = \sum_{m,n}\sum_k\ket{\psi_{mk}}\bra{\psi_{nk}} H_{V;mn}(k,t)\\
+  H_{V;mn}(k,t) &= \bra{\psi_{mk}}\hat{H}_V(t)\ket{\psi_{nk}} = \bra{u_{mk}}e^{-ik\hat{r}}\hat{H}_Ve^{ik\hat{r}}\ket{u_{nk}}\\
+  &=  \bra{u_{mk}}\Bigl(\frac{(\hat{p} + k - qA(t))^2}{2m} + V(\hat{r})\Bigr)\ket{u_{nk}} = H_{0;mn}(k-qA(t))
+\end{align}
+のように書ける事が分かる。つまりベクトルポテンシャルが無い場合のBloch Hamiltonianの行列表現$H_0(k)$を$H_0(k-qA(t))$とすれば良い。
 
 \subsection{練習問題：伝導度}
 
