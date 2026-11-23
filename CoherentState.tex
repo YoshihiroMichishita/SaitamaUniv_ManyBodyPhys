@@ -292,8 +292,10 @@ index $a$の粒子数期待値は、便宜上化学ポテンシャルをindex $a
 ところで積分経路$\gamma_0$は$\xi_ae^{z\Delta\tau}$を囲ってさえなければ良いので、下図の$\gamma_1$と$\gamma_2$の経路の和($\oint_{\gamma_0}=\oint_{\gamma_1}+\oint_{\gamma_2}$)に書き直すことが出来る。
 \begin{figure}[t]
   \centering
-    \includegraphics[width=0.5\linewidth]{fig/contour.png}
-    \caption{複素積分の経路}
+    \includegraphics[width=0.42\linewidth]{fig/contour.png}
+    \includegraphics[width=0.42\linewidth]{fig/contour_boson.png}
+    \caption{複素積分の経路\\
+    左がFermion, 右がBoson(の経路の一部)}
     \label{fig:contour}
 \end{figure}
 さらに、無限遠の円弧の積分$\oint_{\gamma_4}$は、
@@ -316,10 +318,270 @@ index $a$の粒子数期待値は、便宜上化学ポテンシャルをindex $a
 となる。よって、この被積分関数について$\oint_{\gamma_0} = \oint_{\gamma_1} + \oint_{\gamma_2} - \oint_{\gamma_4} = -\oint_{\gamma_3}$であり、$\gamma_3$は、$z = \xi_ae^{z\Delta\tau}$の解を囲むような閉曲線である。よって
 \begin{align}
   \ev{n_a} &= \frac{1}{2\pi i}\oint_{\gamma_3} dz \frac{e^{z\Delta\tau}}{z - \xi_ae^{z\Delta\tau}} f_{\zeta}(z) = \frac{1}{2\pi i}\oint_{\gamma_3} dz \frac{1}{z - \xi_a} f_{\zeta}(z)\\
+  &= \frac{1}{2\pi i}\int_{-\infty}^{\infty} d\omega \Bigl(\frac{1}{\omega - \xi_a -i\delta} - \frac{1}{\omega - \xi_a +i\delta}\Bigr) f_{\zeta}(\omega)\label{real_axis}\\
   &= f_{\zeta}(\xi_a)
 \end{align}
-が得られる。今回は練習問題として、知っている結果を経路積分から導くことが出来ることを確認した。このテクニックは今後でも使うので覚えておくこと。
+が得られる。ここで$G^A_{aa}(\omega) = (\omega - K - i \delta)^{-1}_{aa}=  1/(\omega - \xi_a - i \delta)$を先進グリーン関数, $G^R_{aa}(\omega) = (\omega - K + i \delta)^{-1}_{aa} = 1/(\omega - \xi_a + i \delta)$を遅延グリーン関数と呼ぶ。$G_A(\omega) = G_R^{\dagger}(\omega)$であるから、スペクトル関数$A_aa(\omega) = -\mathrm{Im}G^R_{aa}(\omega)/\pi$を用いて、
+\begin{align}
+  \ev{n_a} &= \int_{-\infty}^{\infty} d\omega A_{aa}(\omega) f_{\zeta}(\omega)
+\end{align}
+と書ける。相互作用のない時, $\delta\rightarrow0$で、$A_{aa}(\omega) = \delta(\omega -\xi_a)$となり、スペクトル関数は、粒子の実体としてのエネルギー値がどこにあるかを示すものになっている。
+今回は練習問題として、知っている結果を経路積分から導くことが出来ることを確認した。このテクニックは今後でも使うので覚えておくこと。
 
-\section{応答関数と量子幾何}
-あああ
+ちなみに今回はFermionを仮定して、$\gamma_1\sim\gamma_3$について、図\ref{fig:contour}の左図のような経路を取った。しかし、Bosonの場合は松原振動数が$n=0$の場合に原点に極を持つので、このままの経路では$\gamma_3$にその極が含まれてしまう。
+そこで、Bosonの場合は分布関数の性質から$\xi_a > 0$が保証されているので、図\ref{fig:contour}の右図のように経路を取る。この結果bosonの場合は式(\ref{real_axis})の積分範囲が$\int_{-\infty}^{\infty}\rightarrow \int_{+0}^{\infty}$と変更を受ける。
+
+
+\section{応答関数と解析接続}
+統計力学で、分配関数を微分して物理量の期待値を計算したことを思い出そう。
+外場$F$が物理量$\hat X$に結合するとし、前節と同じく
+$\hat K=\hat H-\mu\hat N$として、$\hat K(F)=\hat K+F\hat X$とおく。
+このとき$Z(F)=\mathrm{Tr}\,e^{-\beta\hat K(F)}$より
+\begin{equation}
+  \ev{\hat X}_F=-\frac{1}{\beta}\frac{\partial\ln Z(F)}{\partial F}
+\end{equation}
+となる。例えば磁場とスピンの結合では、結合の符号を$\hat X$に含めればこの形で書ける。
+
+\subsection{虚時間の応答関数}
+経路積分形式では、外場を虚時間に依存する$F(\tau)$に一般化できる。
+式(\ref{imagtime_action})の作用に外場との結合を加えると
+\begin{align}
+  Z[F]&=\int\mathcal D[\bar\psi,\psi]\,e^{-S_F[\bar\psi,\psi]},\\
+  S_F[\bar\psi,\psi]&=S[\bar\psi,\psi]+\int_0^\beta d\tau\,F(\tau)X(\tau)
+\end{align}
+となる。例えば$\hat X$が一体演算子なら、離散表示で
+$X(\tau_j)=\sum_{ab}\bar\psi_{j+1,a}X_{ab}\psi_{j,b}$のように書ける。また$X, F$をGrassmann数としても良い。(そうすれば"応答関数"としてFermionのグリーン関数が出る。)
+
+ここでさらに一般化して、別の外場$F'(\tau')$ ($X'(\tau')F'(\tau')$の形でハミルトニアンに加わるとする)があった場合の$X(\tau)$の期待値は、
+$\ln Z[F]$を変分すると
+\begin{align}
+  \ev{X(\tau)}_{F'} &= -\left.\frac{\delta}{\delta F(\tau)}\right|_{F=0}\ln Z[F, F'],\\
+  \ev{X(\tau)}_{F'}-\ev{\hat X}_0
+    &= \int_0^\beta d\tau'\,\chi^T_{XX'}(\tau,\tau')F'(\tau')
+       +\mathcal O(F'^2),\\
+  \chi_{XX}(\tau,\tau')
+    &= -\left.\frac{\delta}
+      {\delta F(\tau)}\frac{\delta}
+      {\delta F'(\tau')}\right|_{F=F'=0}\ln Z[F, F']
+      \label{response_source_derivative}
+\end{align}
+を得る。以降簡単のため$\ev{\hat X}_0=0$としておく。ここで、虚時間の連続極限を取る前の表式を思い出そう。
+\begin{align}
+  e^{-\bar\psi_i\cdot\psi_i}\bra{\psi_{i+1}}e^{-\Delta\tau \hat{K}}\ket{\psi_i} &= e^{-\bar\psi_i\cdot\psi_i}\bra{\psi_{i+1}}e^{-\Delta\tau K(\bar\psi_{i+1}, \psi_i)}\ket{\psi_i}\nonumber\\
+  &\rightarrow \exp[-\Delta\tau\bigl(\bar\psi(\tau)\frac{\p}{\p\tau}\psi(\tau)+K(\tau)\bigr)]
+\end{align}
+のように$\tau$依存性を導入したので、一貫性を持つためには、外場の虚時間依存性も同様にして入るべきである。すなわち、
+\begin{align}
+  e^{-\bar\psi_i\cdot\psi_i}\bra{\psi_{i+1}}e^{-\Delta\tau \bigl(\hat{K}+\hat{X}F_i \bigr) }\ket{\psi_i} &= e^{-\bar\psi_i\cdot\psi_i}\bra{\psi_{i+1}}e^{-\Delta\tau \bigl(K(\bar\psi_{i+1}, \psi_i)+ X(\bar\psi_{i+1}, \psi_i)F_i\bigr)}\ket{\psi_i}\nonumber\\
+  &\rightarrow \exp[-\Delta\tau\bigl(\bar\psi(\tau)\frac{\p}{\p\tau}\psi(\tau)+K(\tau) + X(\tau)F(\tau)\bigr)]
+\end{align}
+これが時間の大きい順に左から並んでいる状態を積分の形で表しているのが経路積分形式であった。故に、もしも$\tau > \tau'$であれば、
+\begin{align}
+  &\left.\frac{\delta}{\delta F(\tau)}\frac{\delta}{\delta F'(\tau')}\right|_{F=F'=0}\ln Z[F, F']\nonumber\\
+      & = \left.\frac{\delta}{\delta F(\tau)}\right|_{F=F'=0}\frac{1}{Z}\prod_i\Bigl(\int d\bar\psi_i d\psi_ie^{-\bar\psi_i\psi_i}\Bigr)  \bra{\zeta\psi_0}\dots\ket{\psi_{i+1}} X(\tau=\tau_i)\bra{\psi_{i+1}}e^{-\Delta\tau K(\bar\psi_{i+1}, \psi_i)}\ket{\psi_i} \dots\nonumber\\
+      &= \frac{1}{Z}\prod_i\Bigl(\int d\bar\psi_i d\psi_ie^{-\bar\psi_i\psi_i}\Bigr) \bra{\zeta\psi_0}\dots\ket{\psi_{j+1}}X(\tau=\tau_j) \dots X(\tau'=\tau_i)\dots\ket{\psi_0}\\
+      &= \ev{X(\tau)X'(\tau')} 
+\end{align}
+逆に$\tau<\tau'$の場合は、例えばもし$F, F'$がGrassmann数ならば、$\delta/\delta F(\tau)$と$X(\tau')$を交換する際に$\zeta_X$が出てくるので、
+\begin{align}
+  &\left.\frac{\delta}{\delta F(\tau)}\frac{\delta}{\delta F'(\tau')}\right|_{F=F'=0}\ln Z[F, F'] = \zeta_X \ev{X'(\tau')X(\tau)}
+\end{align}
+となる。よってこれらをまとめて、
+\begin{align}
+  \chi_{XX'}(\tau,\tau') = \begin{cases}
+    -\ev{X(\tau)X'(\tau')} & (\tau > \tau')\\
+    -\zeta_X \ev{X'(\tau')X(\tau)} & (\tau < \tau')
+  \end{cases}\label{tau_order}
+\end{align}
+と書ける。
+さて、ここまでcoherent状態を用いて経路積分形式で書いてきたが、ここで一旦解析接続が出来る事の確認のために、多体ハミルトニアンの固有状態を用いた表式に戻ろう。つまり$\mathcal{O}(\tau)\rightarrow \hat{O}$として再び演算子に戻せば良いので、
+\begin{align}
+  \ev{X(\tau)X'(\tau')}_0
+  &=\frac{1}{Z_0}\mathrm{Tr}\Bigl[
+     e^{-(\beta-\tau)\hat K}\hat X'
+     e^{-(\tau-\tau')\hat K}\hat X' e^{-\tau'\hat K}\Bigr]\\
+  &=\frac{1}{Z_0}\mathrm{Tr}\Bigl[
+     e^{-\beta\hat K}\hat X(\tau-\tau')\hat X'\Bigr] = \ev{X(\tau-\tau')X'(0)}_0,\label{tau_trace}\\
+  \hat X(\tau)&=e^{\tau\hat K}\hat X e^{-\tau\hat K}.
+\end{align}
+最後の式ではトレースの巡回性を用いた。したがって平衡状態では、相関関数は虚時間の差だけに依存する。(虚時間の並進対称性がある。)
+以降の視認性のために、観測する演算子を$\hat{X} \rightarrow \hat A$、外場と結合する演算子を$\hat{X'} \rightarrow \hat B$とする。トレースの形にすると、応答関数の形がわかりやすい。というのも、トレースの巡回性から $<0\tau<\beta$として
+$\ev{\hat A(\tau)\hat B}_0 = \zeta_A \ev{\hat A(\tau-\beta)\hat B}_0 = \zeta_A \ev{\hat B\hat A(\tau-\beta)}_0$となるので、
+$\chi_{AB}(\tau-\beta)=\zeta_X\chi_{AB}(\tau) \quad (0<\tau<\beta)$となり、式(\ref{tau_order})が導かれる。
+よって$0\leq\tau<\beta$について$\zeta_X=+1$なら周期的、$\zeta_X=-1$なら反周期的である。
+
+\subsection{虚時間相関関数のLehmann表示}
+$\hat K\ket{m}=E_m\ket{m}$とし、$p_m=e^{-\beta E_m}/Z$とおく。
+$A_{m\ell}=\bra m\hat A\ket\ell$、$B_{\ell m}=\bra\ell\hat B\ket m$と書くと、
+式(\ref{tau_order}), 式(\ref{tau_trace})に完全性($\hat{1} = \sum_n\ket{n}\bra{n}$)を挿入して
+\begin{align}
+  \chi^T_{AB}(\tau)
+  =-\sum_{m,\ell} A_{m\ell}B_{\ell m}e^{\tau(E_m-E_\ell)}
+     \Bigl[\theta(\tau)p_m+\zeta_X\theta(-\tau)p_\ell\Bigr]
+\end{align}
+を得る。このように、相関関数を固有状態の和で表したものをLehmann表示と呼ぶ。
+
+松原振動数$\omega_n$は$e^{i\omega_n\beta}=\zeta_X$を満たすものを選ぶ。
+これにより$e^{i\omega_n\tau}\chi^T_{AB}(\tau)$は$\beta$周期/反周期になるので、2倍の周期でFourier変換して半分にすればよく、
+\begin{align}
+  \chi^T_{AB}(i\omega_n)
+    &=\frac{1}{2}\int_{-\beta}^{\beta} d\tau\,
+        e^{i\omega_n\tau}\chi^T_{AB}(\tau)
+     =\int_0^\beta d\tau\,e^{i\omega_n\tau}\chi^T_{AB}(\tau)\\
+    &=-\sum_{m,\ell}p_m A_{m\ell}B_{\ell m}
+        \int_0^\beta d\tau\,e^{(i\omega_n+E_m-E_\ell)\tau}.
+    \label{response_matsubara_integral}
+\end{align}
+$p_m e^{i\omega_n\beta+\beta(E_m-E_\ell)}
+=\zeta_X p_\ell$より
+\begin{equation}
+  \chi^T_{AB}(i\omega_n)
+    =\sum_{m,\ell}
+       \frac{(p_m-\zeta_X p_\ell) A_{m\ell}B_{\ell m}}
+            {i\omega_n+E_m-E_\ell}.
+    \label{response_matsubara_lehmann}
+\end{equation}
+ボゾン型の$\omega_n=0$で$E_m=E_\ell$の項は、式(\ref{response_matsubara_integral})から
+直接$-\beta p_m A_{m\ell}B_{\ell m}$と評価する。
+
+\subsection{実時間の線形応答}
+時刻$t_0$に平衡状態$\hat\rho_0=e^{-\beta\hat K}/Z$から出発し、
+外場$F(t)$を加えたときの$\ev{\hat A(t)}$を考えよう。
+(解析接続のための)対応関係を確認するため、$\hat{A}, \hat{B}$は$\hat{c}^\dagger_{n} O_{nm}\hat{c}_m$のような形で書けると仮定し\footnote{この仮定をした場合、自動的に$\zeta_A = \zeta_B = 1$となる。}、時間発展の生成子を$\hat K$に書き換える。（totalの粒子数を保存する演算子の
+$\hat{K}$による時間発展は、$\hat H$で時間発展させた場合と同じになる）。
+まず$F(t)$が$\hat{B}$と結合している外場とする。簡単のため$\hbar=1$として、時間発展演算子と相互作用表示は
+\begin{align}
+  \hat U(t, t_0)&=\mathcal T_>\exp\Bigl[-i\int_{t_0}^{t}dt'\,
+                       \bigl(\hat K+\hat B F(t')\bigr)\Bigr],\\
+  \hat U_0(t, t_0)&=e^{-i\hat K(t-t_0)} = \hat U_0(t - t_0),\quad
+  \hat U_I(t, t_0)=\hat U_0^\dagger(t, t_0)\hat U(t, t_0),
+\end{align}
+と書ける。ただし$\mathcal T>$は(実)時間順序積を表す。
+外場の一次まで展開すると、演算子の相互作用表示$\hat A^I(t)=\hat U_0^\dagger(t-t_0)\hat A\hat U_0(t-t_0)$の記法を用いて、
+\begin{align}
+  \hat U_I(t) &= \hat{U}_0^{\dagger}(t)\Bigl[U_0(t) -i \mathcal{T}_>\int_{t_0}^{t} dt'\hat{U}_0(t-t')\hat{B} F(t') \hat{U}_0(t'-t_0) +  +\mathcal O(F^2) \Bigr]\\
+        &=\hat 1-i\int_{t_0}^{t}dt'\,\hat B^I(t')F(t')+\mathcal O(F^2)
+\end{align}
+となる。これを
+$\ev{\hat A(t)}_F=\mathrm{Tr}[\hat U_I^\dagger(t)\hat A^I(t)\hat U_I(t)\hat\rho_0]$
+に代入すると
+\begin{align}
+  \delta\ev{\hat A(t)}
+   &= -i\int_{t_0}^{t}dt'\,
+       \ev{[\hat A_0(t),\hat B_0(t')]}_0F(t')+\mathcal O(F^2)\\
+   &=\int_{-\infty}^{\infty} dt'\,\chi^R_{AB}(t-t')F(t')+\mathcal O(F^2)
+\end{align}
+を得る。ここでは$t'<t_0$で$F(t')=0$とした。一般に遅延応答関数は
+\begin{align}
+  \chi^R_{AB}(t-t')
+    &=-i\theta(t-t')\ev{[\hat A_0(t),\hat B_0(t')]_{\zeta_X}}_0,\\
+  [\hat A,\hat B]_{\zeta_X}&=\hat A\hat B-\zeta_X\hat B\hat A
+\end{align}
+と書ける。
+パリティ奇の演算子に対しては、形式的なGrassmann外場を$\hat B$の右に置く。一次の展開で$\hat B_0(t')F(t')\hat A_0(t)$の$F(t')$を右に移すと負号が付くため、交換子は反交換子になる。\footnote{この場合$\hat{B}$は全粒子数$\hat{N}$と交換しないので、相互作用描像の時間発展を$\hat{H}$で行う必要がある}
+
+\subsection{遅延応答関数のLehmann表示と解析接続}
+虚時間の場合と同様に固有状態を挿入し、積の順番を逆にした項で$m,\ell$を入れ替えると、
+\begin{equation}
+  \ev{[\hat A_0(t),\hat B_0(t')]_{\zeta_X}}_0
+    =\sum_{m,\ell}(p_m-\zeta_X p_\ell)A_{m\ell}B_{\ell m}
+       e^{i(E_m-E_\ell)(t-t')}
+\end{equation}
+となる。Fourier変換の規約を$g(\omega)=\int_{-\infty}^{\infty}dt\,e^{i\omega t}g(t)$とすると、
+線形応答は$\delta\ev{\hat A}(\omega)=\chi^R_{AB}(\omega)F(\omega)$となる。
+
+$\epsilon>0$として$-i\int_0^\infty dt\,e^{ixt-\epsilon t}=1/(x+i\epsilon)$である。
+また、$\theta(t)$は
+\begin{equation}
+  \theta(t)=\lim_{\epsilon\rightarrow0}\int_{-\infty}^{\infty}
+    \frac{d\omega'}{2\pi}\frac{i e^{-i\omega't}}{\omega'+i\epsilon}
+    \qquad (t\ne 0)
+\end{equation}
+とも書ける。この積分では$t>0$で下半平面に経路を閉じ、
+$t<0$では上半平面に閉じる。
+よって実時間のLehmann表示は
+\begin{equation}
+  \chi^R_{AB}(\omega)=\sum_{m,\ell}
+    \frac{(p_m-\zeta_X p_\ell)A_{m\ell}B_{\ell m}}
+         {\omega+E_m-E_\ell+i0^+}.
+  \label{response_retarded_lehmann}
+\end{equation}
+
+式(\ref{response_matsubara_lehmann})と式(\ref{response_retarded_lehmann})を見比べよう。
+複素変数$z$の関数
+\begin{equation}
+  \chi_{AB}(z)=\sum_{m,\ell}
+     \frac{(p_m-\zeta_X p_\ell)A_{m\ell}B_{\ell m}}{z+E_m-E_\ell}
+\end{equation}
+を考えると、虚時間の相関関数はその虚軸上の値であり、
+遅延応答関数は上半平面から実軸に近づけた境界値である。
+したがって虚時間の相関関数を計算したあと、
+$i\omega_n\longrightarrow\omega+i0^+$と解析接続することで遅延応答関数が求まる。
+ただし、先に求めたボゾン型の$\omega_n=0$にだけ現れる等エネルギー項は、
+虚時間に依存しない静的な寄与である。遅延応答関数では、
+この項の係数$p_m-p_\ell$がゼロになる。
+
+\section{電場応答と量子幾何}
+\subsection{velocity gaugeとlength gauge}
+まずは高校の物理でも出てくるような電場の入ったハミルトニアンからスタートしよう。
+\begin{align}
+  \hat{H}_{E}(t) = \frac{\hat{p}^2}{2m} + V(\hat{r}) - q \vec{E}(t)\cdot\vec{\hat{r}}
+\end{align}
+物性物理ではこの形で電場が入るゲージの取り方をlength gauge(長さゲージ)と呼ぶ。このゲージの取り方をしている状態に対して、ゲージ変換$\ket{\tilde{\psi}} = e^{i\chi(\hat{r}, t)}\ket{\psi}$を加えた状態が従うハミルトニアンを考えてみよう。すなわち、
+\begin{align}
+  i\frac{d}{dt}\ket{\tilde{\psi}} &= e^{i\chi(\hat{r}, t)}\Bigl(i\frac{d}{dt} - \frac{d\chi}{dt}\Bigr)\ket{\psi} = \Bigl(e^{i\chi(\hat{r}, t)}\hat{H}_E(t)e^{-i\chi(\hat{r}, t)} - \frac{d\chi}{dt}\Bigr)\ket{\tilde{\psi}}\\
+  &= \hat{\tilde{H}}(t) \ket{\tilde{\psi}},\\
+  \Rightarrow & \hat{\tilde{H}}(t) = e^{i\chi(\hat{r}, t)}\hat{H}_E(t)e^{-i\chi(\hat{r}, t)} - \frac{d\chi}{dt}.
+\end{align}
+ところで、もし結晶の話を考えたい場合、なんとなくハミルトニアンに結晶の並進対称性が欲しくなるであろう。しかしlength gaugeの$q \vec{E}(t)\cdot\vec{\hat{r}}$はそのような対称性を有していない。よって、$\chi(\hat{r}, t)$をうまく設定することでこの項を消し、並進対称性を復活させる事を試みたい。$\chi(\hat{r}, t) = -q[\int_0^t dt' \vec{E}(t')]\cdot \vec{\hat{r}} = q \vec{A}(t)\cdot \vec{\hat{r}}$とすれば、
+\begin{align}
+    \hat{\tilde{H}}(t) = e^{i\chi(\hat{r}, t)}\Bigl(\frac{\hat{p}^2}{2m} + V(\hat{r})\Bigr)e^{-i\chi(\hat{r}, t)} = \frac{(\hat{p} - q \vec{A}(t))^2}{2m} + V(\hat{r})
+\end{align}
+となり、これは並進対称性を持つ。このゲージの取り方を(ベクトルポテンシャルが運動量と結合している事から)velocity gauge(速さゲージ)と呼ぶ。
+
+\subsection{結晶中の電磁場}
+\subsubsection{強束縛模型とBloch Hamiltonian}
+ポテンシャル項がある離散対称性を持っている場合、すなわち$\vec{R} = \sum_{i = 1}^d n_i \vec{a}_i$(ただし$n_i$は整数。)として、$V(\hat{r}) = V(\hat{r} - \vec{R})\quad (\forall n_i)$と書ける場合を考える。離散並進演算子$\hat{T}_R\ket{r} = \ket{r+R}$, $\hat{T}_R \hat{r} = (\hat{r}-\vec{R})\hat{T}_R$, $[\hat{T}_R, \hat{p}]=0$を導入すると、$[\hat{T}_R,\hat{H}] = 0$が成り立つので
+\begin{align}
+  &\hat{H}\ket{\psi_n} = E_n\ket{\psi_n}, \quad [\hat{T}_R,\hat{H}] = 0\\
+  &\Rightarrow \hat{T}_R\hat{H}\ket{\psi_n} = \hat{T}_RE_n\ket{\psi_n} = E_n\hat{T}_R\ket{\psi_n} = \hat{H}\hat{T}_R\ket{\psi_n}\label{same_eig}
+\end{align}
+式(\ref{same_eig})より$\hat{T}_R\ket{\psi_n} \propto \ket{\psi_n}$である事がわかる。さらに、$\hat{T}_R*\hat{T}_{R'} = \hat{T}_{R+R'}$より$\hat{T}_R\ket{\psi_n} = e^{ikR} \ket{\psi_n}$と書けると同定できる。ここで$\ket{\psi_n}$が$\hat{T}_R$について固有値$e^{ikR}$の固有状態である事を明示するために以降では$\ket{\psi_{nk}}$と表記する。
+またこの性質より、
+\begin{align}
+  \braket{r-R}{\psi_{nk}} = \bra{r}\hat{T}_R\ket{\psi_{nk}} = e^{ikR}\braket{r}{\psi_{nk}} \Leftrightarrow \psi_{nk}(r-R) = e^{ikR}\psi_{nk}(r) 
+\end{align}
+が満たされる。
+ここでWannier状態$\ket{w_n(R)} = \sum_k e^{-ikR}\ket{\psi_n(k)}/\sqrt{N}$を導入すると、
+\begin{align}
+  \braket{r}{w_n(R)} &= \frac{1}{\sqrt{N}}\int dk e^{-ikR} \braket{r}{\psi_{nk}} = \frac{1}{\sqrt{N}}\int dk \braket{r-R}{\psi_{nk}} = \braket{r-R}{w_n(0)}\\
+  & = \frac{1}{\sqrt{N}}\int dk e^{-ik(R-R')}\braket{r-R'}{\psi_{nk}} = \braket{r-R'}{w_n(R-R')}
+\end{align}
+が成立する。この状態でのハミルトニアンの表現を考えてみよう。すなわち、
+\begin{align}
+  \hat{H} &= \sum_{mn}\sum_{R,R'}\ket{w_m(R)}\bra{w_m(R)}\hat{H}\ket{w_n(R')}\bra{w_n(R')}\\
+  &= \sum_{mn}\sum_{R,R'}\ket{w_m(R)}t_{mn}(R, R')\bra{w_n(R')}
+\end{align}
+の$t_{mn}(R,R')$を考えていきたい。この表現での(特に$|R-R'|$が小さいところで打ち切った)ハミルトニアンをtight-binding模型(強束縛模型)と呼ぶ。
+ポテンシャル項の寄与について、
+\begin{align}
+  \bra{w_m(R)}V(\hat{r})\ket{w_n(R')} &= \int dr \braket{w_m(R)}{r}V(r)\braket{r}{w_n(R')}\\
+  &=\int dr \braket{w_m(0)}{r-R}V(r)\braket{r-R}{w_n(R'-R)}\\
+  &=\int dr \braket{w_m(0)}{r-R}V(r-R)\braket{r-R}{w_n(R'-R)}\\
+  &=\int dr \braket{w_m(0)}{r}V(r)\braket{r}{w_n(R'-R)}
+\end{align}
+と書けるので、これは$R'-R$に依存する。$\hat{p}^2$の項についても並進対称性があるので同様に$R'-R$に依存する。離散並進対称性がある系においては$t_{mn}(R,R') = t_{mn}(R'-R)$と書ける。
+
+さて、この表現を元々の$\ket{\psi_{nk}}$の表現に変換すると、$\ket{w_n(R)} = \sum_k e^{-ikR}\ket{\psi_{nk}}/\sqrt{N}$であるから、
+\begin{align}
+  \hat{H} &= \sum_{mn}\sum_{R,R'}\ket{w_m(R)}t_{mn}(R, R')\bra{w_n(R')}\\
+  &= \sum_{mn}\sum_{k,k'}\ket{\psi_{mk}}\bra{\psi_{nk'}}\frac{1}{N}\sum_{R,R'}t_{mn}(R'- R)e^{i(k'R'-kR)}\\
+   &= \sum_{mn}\sum_{k}\ket{\psi_{mk}}\bra{\psi_{nk}}\frac{1}{N}\sum_{R,R'}t_{mn}(R'- R)e^{ik(R'-R)} = \sum_{mn}\sum_{k}\ket{\psi_{mk}}\bra{\psi_{nk}} H_{mn}(k).
+\end{align}
+2行目から3行目の式変形には$[\hat{T}_R,\hat{H}]=0$(すなわち$k$について対角)である事を用いた。$H_{mn}(k)$の表現でのハミルトニアンをBloch Hamiltonianと呼ぶ。
+
+\subsection{練習問題：伝導度}
+
+\subsection{伝導度に現れる量子幾何}
+
 \end{document}
