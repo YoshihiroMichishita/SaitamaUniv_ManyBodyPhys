@@ -552,8 +552,10 @@ $i\omega_n\longrightarrow\omega+i0^+$と解析接続することで遅延応答�
   \braket{r-R}{\psi_{nk}} = \bra{r}\hat{T}_R\ket{\psi_{nk}} = e^{-ikR}\braket{r}{\psi_{nk}} \Leftrightarrow \psi_{nk}(r-R) = e^{-ikR}\psi_{nk}(r) 
 \end{align}
 が満たされる。
-ここでWannier状態$\ket{w_n(R)} = \sum_k e^{-ikR}\ket{\psi_n(k)}/\sqrt{N}$を導入すると、
+ここでWannier状態$\ket{w_n(R)} = \sum_k e^{-ik(R+d_n)}\ket{\psi_n(k)}/\sqrt{N}$を導入すると、
 \begin{align}
+  \braket{w_m(R)}{w_n(R')} &= \frac{1}{N}\sum_{kk'}\braket{\psi_{mk}}{\psi_{nk'}}e^{ik(R+d_m)-ik'(R'+d_n)}\nonumber\\
+  & = \delta_{mn}\frac{1}{N}\sum_k e^{ik(R-R')} = \delta_{mn}\delta_{RR'}\\
   \braket{r}{w_n(R)} &= \frac{1}{\sqrt{N}}\int dk e^{-ikR} \braket{r}{\psi_{nk}} = \frac{1}{\sqrt{N}}\int dk \braket{r-R}{\psi_{nk}} = \braket{r-R}{w_n(0)}\\
   & = \frac{1}{\sqrt{N}}\int dk e^{-ik(R-R')}\braket{r-R'}{\psi_{nk}} = \braket{r-R'}{w_n(R-R')}
 \end{align}
@@ -562,7 +564,7 @@ $i\omega_n\longrightarrow\omega+i0^+$と解析接続することで遅延応答�
   \hat{H} &= \sum_{mn}\sum_{R,R'}\ket{w_m(R)}\bra{w_m(R)}\hat{H}\ket{w_n(R')}\bra{w_n(R')}\\
   &= \sum_{mn}\sum_{R,R'}\ket{w_m(R)}t_{mn}(R, R')\bra{w_n(R')}
 \end{align}
-の$t_{mn}(R,R')$を考えていきたい。この表現での(特に$|R-R'|$が小さいところで打ち切った)ハミルトニアンをtight-binding模型(強束縛模型)と呼ぶ。
+の$t_{mn}(R,R')$を考えていきたい。この表現での(特に$|R+d_m-R'-d_n|$が小さいところで打ち切った)ハミルトニアンをtight-binding模型(強束縛模型)と呼ぶ。
 ポテンシャル項の寄与について、
 \begin{align}
   \bra{w_m(R)}V(\hat{r})\ket{w_n(R')} &= \int dr \braket{w_m(R)}{r}V(r)\braket{r}{w_n(R')}\\
@@ -572,11 +574,12 @@ $i\omega_n\longrightarrow\omega+i0^+$と解析接続することで遅延応答�
 \end{align}
 と書けるので、これは$R'-R$に依存する。$\hat{p}^2$の項についても並進対称性があるので同様に$R'-R$に依存する。離散並進対称性がある系においては$t_{mn}(R,R') = t_{mn}(R'-R)$と書ける。
 
-さて、この表現を元々の$\ket{\psi_{nk}}$の表現に変換すると、$\ket{w_n(R)} = \sum_k e^{-ikR}\ket{\psi_{nk}}/\sqrt{N}$であるから、
+さて、この表現を元々の$\ket{\psi_{nk}}$の表現に変換すると、$\ket{w_n(R)} = \sum_k e^{-ik(R+d_n)}\ket{\psi_{nk}}/\sqrt{N}$であるから、
 \begin{align}
   \hat{H} &= \sum_{mn}\sum_{R,R'}\ket{w_m(R)}t_{mn}(R, R')\bra{w_n(R')}\\
-  &= \sum_{mn}\sum_{k,k'}\ket{\psi_{mk}}\bra{\psi_{nk'}}\frac{1}{N}\sum_{R,R'}t_{mn}(R'- R)e^{i(k'R'-kR)}\\
-   &= \sum_{mn}\sum_{k}\ket{\psi_{mk}}\bra{\psi_{nk}}\frac{1}{N}\sum_{R,R'}t_{mn}(R'- R)e^{ik(R'-R)} = \sum_{mn}\sum_{k}\ket{\psi_{mk}}\bra{\psi_{nk}} H_{mn}(k).
+  &= \sum_{mn}\sum_{k,k'}\ket{\psi_{mk}}\bra{\psi_{nk'}}\frac{1}{N}\sum_{R,R'}t_{mn}(R'- R)e^{i(k'(R'+d_n)-k(R+d_m))}\\
+   &= \sum_{mn}\sum_{k}\ket{\psi_{mk}}\bra{\psi_{nk}}\frac{1}{N}\sum_{R,R'}t_{mn}(R'- R)e^{ik(R'+d_n-R-d_m)}\\
+   & = \sum_{mn}\sum_{k}\ket{\psi_{mk}}\bra{\psi_{nk}} H_{mn}(k).
 \end{align}
 2行目から3行目の式変形には$[\hat{T}_R,\hat{H}]=0$(すなわち$k$について対角)である事を用いた。$H_{mn}(k)$の表現でのハミルトニアンをBloch Hamiltonianと呼ぶ。
 
@@ -588,9 +591,10 @@ $\ket{u_{nk}} = e^{-ik\hat{r}}\ket{\psi_{nk}}$としておくと
 \end{align}
 この周期状態を用いると$H_{mn}(k)$は
 \begin{align}
-  H_{mn}(k) = \bra{\psi_{mk}}\hat{H}\ket{\psi_{nk}} = \bra{u_{mk}}e^{-ik\hat{r}}\hat{H}e^{ik\hat{r}}\ket{u_{nk}} = \bra{u_{mk}}\Bigl(\frac{(\hat{p} + k)^2}{2m} + V(\hat{r})\Bigr)\ket{u_{nk}} 
+  H_{mn}(k) = \bra{\psi_{mk}}\hat{H}\ket{\psi_{nk}} = \bra{u_{mk}}e^{-ik\hat{r}}\hat{H}e^{ik\hat{r}}\ket{u_{nk}} = \bra{u_{mk}}\hat{H}(k)\ket{u_{nk}} 
+  %= \bra{u_{mk}}\Bigl(\frac{(\hat{p} + k)^2}{2m} + V(\hat{r})\Bigr)\ket{u_{nk}} 
 \end{align}
-と書ける。
+と書ける。($\hat{H}(k) = e^{-ik\hat{r}}\hat{H}e^{ik\hat{r}}$と置いた。)
 \begin{comment}
 Hamiltonianの表現も見ておこう。すなわち、
 \begin{align}
@@ -600,14 +604,32 @@ Hamiltonianの表現も見ておこう。すなわち、
 \end{align}
 \end{comment}
 
-\subsubsection{Bloch Hamiltonianにおけるベクトルポテンシャル}
-式(\ref{velocity_gauge0})からスタートして、Bloch Hamiltonianの形にしてみよう。ベクトルポテンシャルの無い状態での表現をすることにして
+\subsubsection{Bloch Hamiltonianにおけるベクトルポテンシャル、Peieris位相}
+式(\ref{velocity_gauge0})より、ベクトルポテンシャル下において
 \begin{align}
-  \hat{H}_V(t) = &\sum_{m,n}\sum_k \ket{\psi_{mk}}\bra{\psi_{mk}}\hat{H}_V(t)\ket{\psi_{nk}}\bra{\psi_{nk}} = \sum_{m,n}\sum_k\ket{\psi_{mk}}\bra{\psi_{nk}} H_{V;mn}(k,t)\\
-  H_{V;mn}(k,t) &= \bra{\psi_{mk}}\hat{H}_V(t)\ket{\psi_{nk}} = \bra{u_{mk}}e^{-ik\hat{r}}\hat{H}_Ve^{ik\hat{r}}\ket{u_{nk}}\\
-  &=  \bra{u_{mk}}\Bigl(\frac{(\hat{p} + k - qA(t))^2}{2m} + V(\hat{r})\Bigr)\ket{u_{nk}} = H_{0;mn}(k-qA(t))
+  \hat{H}_V(k) = e^{-ik\hat{r}}e^{iqA(t)\hat{r}}\hat{H}e^{-iqA(t)\hat{r}}e^{ik\hat{r}} = \hat{H}(k-qA(t))
 \end{align}
-のように書ける事が分かる。つまりベクトルポテンシャルが無い場合のBloch Hamiltonianの行列表現$H_0(k)$を$H_0(k-qA(t))$とすれば良い。
+が成立する。
+ただ実用上用いる際は、tight-binding模型で有効模型に落とした後のBloch Hamiltonianからどのように構成するか、という事が問題になってくる。すなわち、$H_{mn}(k)$は分かっているが、そこから$\bra{u_{mk}}\hat{H}(k-qA(t))\ket{u_{nk}}$をどのように計算するかと言うことになる。特にベクトルポテンシャルについて摂動論を行う場合、電流演算子$\hat{J}$を
+\begin{align}
+  \hat{J^{\alpha}} = \left.\frac{\p \hat{H(k-qA)}}{\p A_\alpha}\right|_{A=0} = q\frac{\p \hat{H(k)}}{\p k_\alpha} 
+\end{align}
+と定義するが、この$\bra{u_{mk}}\hat{J}_{\alpha}\ket{u_{nk}}$は一般には$H_{mn}(k)$から計算できない。というのも例えば
+\begin{align}
+  q\frac{\p H_{nm}(k)}{\p k_\alpha} &=   q\frac{\p}{\p k_\alpha}\bra{u_{mk}}\hat{H}(k)\ket{u_{nk}}\\
+  &= q\Bigl(\bra{u_{mk}}\frac{\p \hat{H(k)}}{\p k_\alpha}\ket{u_{nk}} + \bra{\frac{\p}{\p k_\alpha}u_{mk}}\hat{H}(k)\ket{u_{nk}}+ \bra{u_{mk}}\hat{H}(k)\ket{\frac{\p}{\p k_\alpha}u_{nk}}\Bigr)
+\end{align}
+となり第2, 3項がわからない訳である。そこで仮定として$\ket{w_{\alpha}(R)} = \sum_nU_{\alpha n}\ket{w_n(R)}$が$\hat{r}$の固有状態であるとして、その固有値を$R+d_\alpha$とする。ここで直感的に$R$はユニットセルの中心, $d_\alpha$は状態$\alpha$の分布の中心のユニットセル内での$R$からのズレとして捉える事が出来る。ここから
+\begin{align}
+  \ket{\psi_{\alpha k}} &= \frac{1}{\sqrt{N}}\sum_{R}e^{ik(R+d_{\alpha})}\ket{w_\alpha(R)}\\
+  \ket{u_{\alpha k}} &= e^{-ik\hat{r}}\ket{\psi_{\alpha k}} = \frac{1}{\sqrt{N}}\sum_{R}\ket{w_\alpha(R)}
+\end{align}
+となるため、$\ket{u_{\alpha k}}$の$k$依存性を取り除く事ができたので$q\frac{\p H_{\alpha\beta}(k)}{\p k_a} = q\bra{u_{\alpha k}}\frac{\p \hat{H(k)}}{\p k_a}\ket{u_{\beta k}}$が成立し、tight-binding模型から電流演算子の行列表現を得る事が出来る。
+さらにこの近似の下では
+\begin{align}
+  \hat{H}_V & = \sum_{mn}\sum_{k}\ket{\psi_{mk}}\bra{\psi_{nk}} H_{mn}(k-qA(t))
+\end{align}
+となり、取り扱いが楽になる。このベクトルポテンシャルの入れ方(取り扱い方)をPeieris位相と呼ぶ。
 
 \subsection{練習問題：伝導度}
 
